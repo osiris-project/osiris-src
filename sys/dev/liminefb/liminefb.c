@@ -53,7 +53,7 @@ struct psf1_header *font
     = (struct psf1_header *)&_binary_lib_viscii10_8x16_psf_start;
 
 void
-dev_liminefb_erase_cursor ()
+liminefb_erase_cursor ()
 {
   int cursor_height = 2;
   int cursor_width = 8;
@@ -70,13 +70,13 @@ dev_liminefb_erase_cursor ()
 }
 
 void
-dev_liminefb_redraw_cursor ()
+liminefb_redraw_cursor ()
 {
   if (cursor_x + 8 > fb_width)
     {
-      dev_liminefb_newline ();
+      liminefb_newline ();
     }
-  dev_liminefb_erase_cursor ();
+  liminefb_erase_cursor ();
 
   if (cursor_y > fb_height)
     {
@@ -107,9 +107,9 @@ dev_liminefb_redraw_cursor ()
 }
 
 void
-dev_liminefb_scroll ()
+liminefb_scroll ()
 {
-  dev_liminefb_erase_cursor ();
+  liminefb_erase_cursor ();
   int char_height = 16;
   uint8_t *byte_fb = (uint8_t *)fb_addr;
 
@@ -131,25 +131,25 @@ dev_liminefb_scroll ()
 
   cursor_x = 0;
   cursor_y = fb_height - 16;
-  dev_liminefb_redraw_cursor ();
+  liminefb_redraw_cursor ();
 }
 
 void
-dev_liminefb_newline ()
+liminefb_newline ()
 {
   cursor_x = 0;
   cursor_y += 16;
 
   if (cursor_y + 16 > fb_height)
     {
-      dev_liminefb_scroll ();
+      liminefb_scroll ();
     }
 
-  dev_liminefb_redraw_cursor ();
+  liminefb_redraw_cursor ();
 }
 
 void
-dev_liminefb_erase_char ()
+liminefb_erase_char ()
 {
   for (int i = 0; i < 16; i++)
     {
@@ -159,34 +159,34 @@ dev_liminefb_erase_char ()
           fb_addr[px] = 0x000000;
         }
     }
-  dev_liminefb_redraw_cursor ();
+  liminefb_redraw_cursor ();
 }
 
 void
-dev_liminefb_putchar (char c, uint32_t color)
+liminefb_putchar (char c, uint32_t color)
 {
   if (cursor_x + 8 > fb_width)
-    dev_liminefb_newline ();
+    liminefb_newline ();
   if (cursor_y + 16 > fb_height)
-    dev_liminefb_scroll ();
+    liminefb_scroll ();
   if (c == '\b')
     {
       if (cursor_x > 0)
         {
           cursor_x -= 8;
-          dev_liminefb_erase_char ();
+          liminefb_erase_char ();
         }
       else if (cursor_y > 0)
         {
           cursor_y -= 16;
           cursor_x = (fb_width / 8 - 1) * 8;
-          dev_liminefb_erase_char ();
+          liminefb_erase_char ();
         }
       return;
     }
   if (c == '\n')
     {
-      dev_liminefb_newline ();
+      liminefb_newline ();
       return;
     }
   uint8_t *glyphs
@@ -209,21 +209,21 @@ dev_liminefb_putchar (char c, uint32_t color)
         }
     }
   cursor_x = cursor_x + 8;
-  dev_liminefb_redraw_cursor ();
+  liminefb_redraw_cursor ();
 }
 
 void
-dev_liminefb_putstr (char *str, uint32_t color)
+liminefb_putstr (char *str, uint32_t color)
 {
   while (*str)
     {
-      dev_liminefb_putchar (*str, color);
+      liminefb_putchar (*str, color);
       str++;
     }
 }
 
 void
-dev_liminefb_init ()
+liminefb_init ()
 {
   const struct limine_framebuffer *framebuffer
       = framebuffer_request.response->framebuffers[0];

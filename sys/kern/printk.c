@@ -121,7 +121,7 @@ printk (const char *fmt, ...)
   va_start (args, fmt);
   vsnprintf (buffer, sizeof (buffer), fmt, args);
   va_end (args);
-  dev_liminefb_putstr (buffer, 0xffffff);
+  liminefb_putstr (buffer, 0xffffff);
 }
 
 void

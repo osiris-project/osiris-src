@@ -15,11 +15,11 @@
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _OSIRIS_DEV_ATKBD_KEYMAP_H
-#define _OSIRIS_DEV_ATKBD_KEYMAP_H
+#ifndef _OSIRIS_ATKBD_KEYMAP_H
+#define _OSIRIS_ATKBD_KEYMAP_H
 
 extern unsigned char lower_kbdus[128];
 extern unsigned char higher_kbdus[128];
 extern const char *keynames[128];
 
-#endif /* _OSIRIS_DEV_ATKBD_KEYMAP_H */
+#endif /* _OSIRIS_ATKBD_KEYMAP_H */

@@ -15,15 +15,15 @@
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _OSIRIS_DEV_LIMINEFB_H
-#define _OSIRIS_DEV_LIMINEFB_H
+#ifndef _OSIRIS_LIMINEFB_H
+#define _OSIRIS_LIMINEFB_H
 
 #include <stdint.h>
 
-void dev_liminefb_init ();
-void dev_liminefb_newline ();
-void dev_liminefb_putchar (char c, uint32_t color);
-void dev_liminefb_putstr (char *str, uint32_t color);
-void dev_liminefb_erase_char ();
+void liminefb_init ();
+void liminefb_newline ();
+void liminefb_putchar (char c, uint32_t color);
+void liminefb_putstr (char *str, uint32_t color);
+void liminefb_erase_char ();
 
-#endif /* _OSIRIS_DEV_LIMINEFB_H */
+#endif /* _OSIRIS_LIMINEFB_H */

@@ -49,7 +49,7 @@ global do_isr17
 global do_isr18
 global do_isr_reserved
 
-extern dev_atkbd_irq
+extern atkbd_irq
 extern apit_irq
 
 extern isr0
@@ -127,7 +127,7 @@ do_irq1:
     push r14
     push r15
 
-    call dev_atkbd_irq
+    call atkbd_irq
 
     pop r15
     pop r14

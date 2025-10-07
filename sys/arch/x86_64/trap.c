@@ -40,121 +40,121 @@ infinite_loop ()
 void
 isr0 ()
 {
-  dev_liminefb_putstr ("Division by zero exception\n", 0xffffff);
+  liminefb_putstr ("Division by zero exception\n", 0xffffff);
   infinite_loop ();
 }
 void
 isr1 ()
 {
-  dev_liminefb_putstr ("Debug exception\n", 0xffffff);
+  liminefb_putstr ("Debug exception\n", 0xffffff);
   infinite_loop ();
 }
 void
 isr2 ()
 {
-  dev_liminefb_putstr ("Non Maskable Interrupt Exception\n", 0xffffff);
+  liminefb_putstr ("Non Maskable Interrupt Exception\n", 0xffffff);
   infinite_loop ();
 }
 void
 isr3 ()
 {
-  dev_liminefb_putstr ("Breakpoint Exception\n", 0xffffff);
+  liminefb_putstr ("Breakpoint Exception\n", 0xffffff);
   infinite_loop ();
 }
 void
 isr4 ()
 {
-  dev_liminefb_putstr ("Into Detected Overflow Exception\n", 0xffffff);
+  liminefb_putstr ("Into Detected Overflow Exception\n", 0xffffff);
   infinite_loop ();
 }
 void
 isr5 ()
 {
-  dev_liminefb_putstr ("Out of Bounds Exception\n", 0xffffff);
+  liminefb_putstr ("Out of Bounds Exception\n", 0xffffff);
   infinite_loop ();
 }
 void
 isr6 ()
 {
-  dev_liminefb_putstr ("Invalid Opcode Exception\n", 0xffffff);
+  liminefb_putstr ("Invalid Opcode Exception\n", 0xffffff);
   infinite_loop ();
 }
 void
 isr7 ()
 {
-  dev_liminefb_putstr ("No Coprocessor Exception\n", 0xffffff);
+  liminefb_putstr ("No Coprocessor Exception\n", 0xffffff);
   infinite_loop ();
 }
 void
 isr8 ()
 {
-  dev_liminefb_putstr ("Double Fault Exception\n", 0xffffff);
+  liminefb_putstr ("Double Fault Exception\n", 0xffffff);
   infinite_loop ();
 }
 void
 isr9 ()
 {
-  dev_liminefb_putstr ("Coprocessor Segment Overrun Exception\n", 0xffffff);
+  liminefb_putstr ("Coprocessor Segment Overrun Exception\n", 0xffffff);
   infinite_loop ();
 }
 void
 isr10 ()
 {
-  dev_liminefb_putstr ("Bad TSS Exception\n", 0xffffff);
+  liminefb_putstr ("Bad TSS Exception\n", 0xffffff);
   infinite_loop ();
 }
 void
 isr11 ()
 {
-  dev_liminefb_putstr ("Segment Not Present Exception\n", 0xffffff);
+  liminefb_putstr ("Segment Not Present Exception\n", 0xffffff);
   infinite_loop ();
 }
 void
 isr12 ()
 {
-  dev_liminefb_putstr ("Stack Fault Exception\n", 0xffffff);
+  liminefb_putstr ("Stack Fault Exception\n", 0xffffff);
   infinite_loop ();
 }
 void
 isr13 ()
 {
-  dev_liminefb_putstr ("General Protection Fault Exception\n", 0xffffff);
+  liminefb_putstr ("General Protection Fault Exception\n", 0xffffff);
   infinite_loop ();
 }
 void
 isr14 ()
 {
-  dev_liminefb_putstr ("Page Fault Exception\n", 0xffffff);
+  liminefb_putstr ("Page Fault Exception\n", 0xffffff);
   infinite_loop ();
 }
 void
 isr15 ()
 {
-  dev_liminefb_putstr ("Unknown Interrupt Exception\n", 0xffffff);
+  liminefb_putstr ("Unknown Interrupt Exception\n", 0xffffff);
   infinite_loop ();
 }
 void
 isr16 ()
 {
-  dev_liminefb_putstr ("Coprocessor Fault Exception\n", 0xffffff);
+  liminefb_putstr ("Coprocessor Fault Exception\n", 0xffffff);
   infinite_loop ();
 }
 void
 isr17 ()
 {
-  dev_liminefb_putstr ("Alignment Check Exception\n", 0xffffff);
+  liminefb_putstr ("Alignment Check Exception\n", 0xffffff);
   infinite_loop ();
 }
 void
 isr18 ()
 {
-  dev_liminefb_putstr ("Machine Check Exception\n", 0xffffff);
+  liminefb_putstr ("Machine Check Exception\n", 0xffffff);
   infinite_loop ();
 }
 void
 isr_reserved ()
 {
-  dev_liminefb_putstr ("Reserved (19-31) Exception\n", 0xffffff);
+  liminefb_putstr ("Reserved (19-31) Exception\n", 0xffffff);
   infinite_loop ();
 }
 

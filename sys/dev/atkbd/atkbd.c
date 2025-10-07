@@ -57,7 +57,7 @@ uint8_t current_led_mask = 0x00;
 
 /* Add a character to the buffer*/
 void
-dev_atkbd_add_buffer (char ch)
+atkbd_add_buffer (char ch)
 {
   asm volatile ("cli");
 
@@ -72,7 +72,7 @@ dev_atkbd_add_buffer (char ch)
 
 /* Clear the buffer */
 void
-dev_atkbd_clear_buffer ()
+atkbd_clear_buffer ()
 {
   asm volatile ("cli");
   for (int i = 0; i < 256; i++)
@@ -86,7 +86,7 @@ dev_atkbd_clear_buffer ()
 
 /* Wait for 8042 controller to be ready */
 void
-dev_atkbd_wait_for_kbc_write ()
+atkbd_wait_for_kbc_write ()
 {
   while (inb (0x64) & 0x02)
     ;
@@ -94,7 +94,7 @@ dev_atkbd_wait_for_kbc_write ()
 
 /* Wait for ACK */
 bool
-dev_atkbd_wait_for_response (uint8_t expected_response)
+atkbd_wait_for_response (uint8_t expected_response)
 {
   int timeout = TIMEOUT;
   uint8_t response;
@@ -116,29 +116,29 @@ dev_atkbd_wait_for_response (uint8_t expected_response)
 
 /* Send a command to 0x60 */
 bool
-dev_atkbd_send_command (uint8_t command)
+atkbd_send_command (uint8_t command)
 {
-  dev_atkbd_wait_for_kbc_write ();
+  atkbd_wait_for_kbc_write ();
   outb (0x60, command);
-  return dev_atkbd_wait_for_response (ACK);
+  return atkbd_wait_for_response (ACK);
 }
 
 /* Get current scancode set. */
 int
-dev_atkbd_query_set ()
+atkbd_query_set ()
 {
   /* If there's no reply, we'll just assume set 1. Emulators usually don't
    * bother with replying. Sadly, this assumption is very risky on real
    * hardware. We'll eventually get a way to not have to assume things like this
    */
-  dev_atkbd_send_command (GET_SET);
+  atkbd_send_command (GET_SET);
   if (inb (0x60) != 0xFA)
     goto no_reply;
 
-  if (!dev_atkbd_wait_for_response (ACK))
+  if (!atkbd_wait_for_response (ACK))
     goto no_reply;
 
-  dev_atkbd_send_command (READ_SET);
+  atkbd_send_command (READ_SET);
   if (inb (0x60) != 0xFA)
     goto no_reply;
 
@@ -146,7 +146,7 @@ dev_atkbd_query_set ()
 
   return set;
 no_reply:
-  log ("atkbd", "dev_atkbd_query_set: no reply\n");
+  log ("atkbd", "atkbd_query_set: no reply\n");
   set = 0x01;
   return set;
 }
@@ -157,31 +157,31 @@ no_reply:
  * 3 - caps lock
  */
 void
-dev_atkbd_set_led (uint8_t led)
+atkbd_set_led (uint8_t led)
 {
-  dev_atkbd_wait_for_kbc_write ();
+  atkbd_wait_for_kbc_write ();
   outb (0x60, SET_LEDS);
-  dev_atkbd_wait_for_kbc_write ();
+  atkbd_wait_for_kbc_write ();
   outb (0x60, led);
-  dev_atkbd_wait_for_response (ACK);
+  atkbd_wait_for_response (ACK);
 }
 
 void
-dev_atkbd_disable ()
+atkbd_disable ()
 {
   outb (0x60, DISABLE);
 }
 
 /* Don't do this much, this is known to cause issues */
 void
-dev_atkbd_enable ()
+atkbd_enable ()
 {
   outb (0x60, ENABLE);
 }
 
 /* Decode a normal scancode */
 char
-dev_atkbd_decode (uint8_t scancode)
+atkbd_decode (uint8_t scancode)
 {
   char decoded_scancode;
   if (shift_down == true || caps_lock == true)
@@ -208,7 +208,7 @@ dev_atkbd_decode (uint8_t scancode)
 
 /* Decode a extended scancode. This is used for buttons like TAB, SHIFT, etc */
 char *
-dev_atkbd_decode_extended (uint8_t scancode)
+atkbd_decode_extended (uint8_t scancode)
 {
   char *decoded_scancode;
   decoded_scancode = keynames[scancode];
@@ -217,7 +217,7 @@ dev_atkbd_decode_extended (uint8_t scancode)
 
 /* Process an extended scancode. */
 void
-dev_atkbd_process_extended (uint8_t scancode)
+atkbd_process_extended (uint8_t scancode)
 {
   switch (scancode)
     {
@@ -234,10 +234,10 @@ dev_atkbd_process_extended (uint8_t scancode)
       alt_down = true;
       break;
     case 0x1C:
-      dev_atkbd_add_buffer ('\n');
+      atkbd_add_buffer ('\n');
       break;
     case 0x0E:
-      dev_atkbd_add_buffer ('\b');
+      atkbd_add_buffer ('\b');
       break;
     default:
       return;
@@ -246,7 +246,7 @@ dev_atkbd_process_extended (uint8_t scancode)
 
 /* Check if a scancode is break */
 bool
-dev_atkbd_scancode_is_break (uint8_t scancode)
+atkbd_scancode_is_break (uint8_t scancode)
 {
   if (scancode > 128)
     {
@@ -261,7 +261,7 @@ dev_atkbd_scancode_is_break (uint8_t scancode)
 /* If caps_lock is true, set it to false, if it's false, set it to true. Also
  * updates keyboard LEDs*/
 void
-dev_atkbd_handle_capslock ()
+atkbd_handle_capslock ()
 {
   if (caps_lock == true)
     {
@@ -273,13 +273,13 @@ dev_atkbd_handle_capslock ()
       caps_lock = true;
       current_led_mask |= CAPS_LOCK_LED;
     }
-  dev_atkbd_set_led (current_led_mask);
+  atkbd_set_led (current_led_mask);
 }
 
-/* This might look like dev_atkbd_process_extended() using if but I assure you
+/* This might look like atkbd_process_extended() using if but I assure you
  * it's not. This is supposed to be used on break keys*/
 void
-dev_atkbd_handle_break (uint8_t scancode)
+atkbd_handle_break (uint8_t scancode)
 {
   switch (scancode)
     {
@@ -300,46 +300,46 @@ dev_atkbd_handle_break (uint8_t scancode)
 
 /* Main IRQ */
 void
-dev_atkbd_irq ()
+atkbd_irq ()
 {
   uint8_t scancode = inb (0x60);
   if (scancode == 0x3A)
-    dev_atkbd_handle_capslock ();
-  if (dev_atkbd_scancode_is_break (scancode))
+    atkbd_handle_capslock ();
+  if (atkbd_scancode_is_break (scancode))
     {
       uint8_t make_code = scancode & 0x7F;
-      dev_atkbd_handle_break (make_code);
+      atkbd_handle_break (make_code);
     }
   else
     {
-      dev_atkbd_process_extended (scancode);
-      char ch = dev_atkbd_decode (scancode);
+      atkbd_process_extended (scancode);
+      char ch = atkbd_decode (scancode);
       if (ch != 0)
         {
-          dev_atkbd_add_buffer (ch);
-          dev_liminefb_putchar (ch, 0xffffff);
+          atkbd_add_buffer (ch);
+          liminefb_putchar (ch, 0xffffff);
         }
     }
   outb (0x20, 0x20);
 }
 
 void
-dev_atkbd_init ()
+atkbd_init ()
 {
-  dev_atkbd_clear_buffer ();
+  atkbd_clear_buffer ();
   /* This seems to fix Qemu's keyboard not working sometimes */
-  dev_atkbd_enable ();
-  int set = dev_atkbd_query_set ();
+  atkbd_enable ();
+  int set = atkbd_query_set ();
   printk ("atkbd: scancode set=%d\n", set);
 
   /* Make sure there's nothing wrong with the LEDS */
   current_led_mask = 0x00;
-  dev_atkbd_set_led (current_led_mask);
+  atkbd_set_led (current_led_mask);
 }
 
 /* Blocking function to retrieve the next typed char */
 char
-dev_atkbd_get_char ()
+atkbd_get_char ()
 {
   while (buffer_start == buffer_end)
     ;

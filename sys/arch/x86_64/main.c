@@ -43,11 +43,11 @@ x64_main ()
   gdt_init ();
   tss_init ();
   idt_init ();
-  dev_atkbd_disable ();
+  atkbd_disable ();
   asm volatile ("sti");
-  dev_liminefb_init ();
+  liminefb_init ();
   printk (banner);
-  dev_atkbd_init ();
+  atkbd_init ();
   pmm_init ();
   vmm_init ();
   /* Transfer control to the main init() function*/

@@ -15,12 +15,12 @@
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _OSIRIS_DEV_ATKBD_H
-#define _OSIRIS_DEV_ATKBD_H
+#ifndef _OSIRIS_ATKBD_H
+#define _OSIRIS_ATKBD_H
 
-void dev_atkbd_init ();
-void dev_atkbd_enable ();
-void dev_atkbd_disable ();
-char dev_atkbd_get_char ();
+void atkbd_init ();
+void atkbd_enable ();
+void atkbd_disable ();
+char atkbd_get_char ();
 
-#endif /* _OSIRIS_DEV_ATKBD_H */
+#endif /* _OSIRIS_ATKBD_H */
