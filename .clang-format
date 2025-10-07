@@ -1,0 +1,12 @@
+BasedOnStyle: GNU
+ColumnLimit: 80
+UseTab: Never
+SortIncludes: true
+IncludeBlocks: Preserve
+IncludeCategories:
+  - Regex: '^<[^/]+\.h>$'
+    Priority: 1
+  - Regex: '^<sys/.*>'
+    Priority: 2
+  - Regex: '^".*"'
+    Priority: 3

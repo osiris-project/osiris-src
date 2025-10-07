@@ -1,0 +1,10 @@
+*.o
+*.iso
+*.d
+*.img
+*.bin
+*.elf
+usr/
+build/
+limine/
+.vscode/
