@@ -42,7 +42,7 @@ IMG	= build/osiris.iso
 #
 # Don't get a x86_64 cross compiler for this kind of job, the system one
 # is enough.
-CC	= clang
+CC	= gcc
 LD	= ld
 AS	= nasm
 OBJCOPY	= objcopy

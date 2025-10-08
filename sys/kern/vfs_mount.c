@@ -15,44 +15,10 @@
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#include <limine.h>
 #include <stddef.h>
 #include <stdint.h>
 
-#include <osiris/arch/x86_64/heap.h>
-#include <osiris/arch/x86_64/page.h>
 #include <osiris/arch/x86_64/request.h>
-#include <osiris/dev/atkbd.h>
-#include <osiris/dev/liminefb.h>
+#include <osiris/kern/module.h>
 #include <osiris/kern/panic.h>
-#include <osiris/kern/portb.h>
 #include <osiris/kern/printk.h>
-#include <osiris/lib/string.h>
-
-extern void gdt_init ();
-extern void idt_init ();
-extern void tss_init ();
-extern void pmm_init ();
-extern void vmm_init ();
-
-extern void kernel_init ();
-
-const char *banner = "Osiris/x86_64\n";
-
-void
-x64_main ()
-{
-  gdt_init ();
-  tss_init ();
-  idt_init ();
-  atkbd_disable ();
-  asm volatile ("sti");
-  liminefb_init ();
-  printk (banner);
-  atkbd_init ();
-  pmm_init ();
-  vmm_init ();
-  heap_init ();
-  /* Transfer control to the main init() function*/
-  kernel_init ();
-}

@@ -8,7 +8,7 @@
 
 #include <stddef.h>
 
-void init_heap(void);
+void heap_init(void);
 
 void *kmalloc(size_t size);
 

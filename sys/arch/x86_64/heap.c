@@ -4,12 +4,12 @@
  * Licensed under the NCSA/University of Illinois Open Source License; see LICENSE.md for details.
  */
 
-#include <misc/heap.h>
-#include <arch/x86_64/memory.h>
-#include <arch/x86_64/vmm.h>
-#include <misc/print.h>
-#include <misc/kernel.h>
-#include <misc/string.h>
+#include <osiris/arch/x86_64/heap.h>
+#include <osiris/arch/x86_64/vmm/vmm_map.h>
+#include <osiris/arch/x86_64/page.h>
+#include <osiris/kern/printk.h>
+#include <osiris/lib/string.h>
+#include <osiris/kern/panic.h>
 
 typedef struct heap_free_block {
     size_t size;
@@ -29,7 +29,7 @@ static void *heap_start = NULL;
 static size_t heap_size = 0;
 static heap_free_block_t *free_list_head = NULL;
 
-void init_heap(void) {
+void heap_init(void) {
     if (heap_start != NULL) {
         return;
     }
@@ -40,19 +40,18 @@ void init_heap(void) {
     for (size_t i = 0; i < INITIAL_HEAP_PAGES; i++) {
         void *phys_page = allocate_page();
         if (phys_page == NULL) {
-            panic("Failed to allocate page for kernel heap");
+            panic("heap: failed to allocate page");
         }
         uintptr_t virt_addr = KERNEL_HEAP_START + (i * PAGE_SIZE);
         if (!vmm_map_page(kernel_pagemap, virt_addr, (uintptr_t)phys_page, PTE_PRESENT | PTE_WRITABLE | PTE_NX)) {
-            panic("Failed to map page for kernel heap");
+            panic("heap: failed to map page");
         }
     }
 
     free_list_head = (heap_free_block_t *)heap_start;
     free_list_head->size = heap_size;
     free_list_head->next = NULL;
-
-    printk(COLOR_GREEN, "Heap installed\n");
+    printk("heap: size=%db\n", heap_size);
 }
 
 void *kmalloc(size_t size) {
@@ -101,7 +100,7 @@ void *kmalloc(size_t size) {
         curr = curr->next;
     }
 
-    printk(COLOR_RED, "kmalloc: Out of heap memory!\n");
+    printk("heap: out of heap memory\n");
     return NULL;
 }
 
@@ -117,7 +116,7 @@ void kfree(void *ptr) {
         block_size < MIN_ALLOC_SIZE ||
         ((uintptr_t)block_start % HEAP_ALIGNMENT) != 0)
     {
-        panic("Invalid pointer or heap corruption detected in kfree");
+        panic("heap: nvalid pointer or heap corruption detected in kfree");
         return;
     }
 

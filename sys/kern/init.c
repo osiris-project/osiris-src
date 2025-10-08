@@ -31,7 +31,7 @@
 void
 kernel_init ()
 {
-  module_init ();
+  //module_init ();
   for (;;)
     asm volatile ("hlt");
 }
