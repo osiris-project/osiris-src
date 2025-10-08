@@ -96,7 +96,7 @@ help:
 	@echo "Refer to the Makefile comment header for explanations"
 
 all: $(IMG)
-	qemu-system-x86_64 -cdrom build/osiris.iso
+	qemu-system-x86_64 -cdrom build/osiris.iso -enable-kvm
 
 kernel: $(KERNEL_ELF)
 
