@@ -30,6 +30,6 @@ void module_init()
         printk("module: detected %d modules\n", module_request.response->module_count);
     }
     else {
-        panic("module: No modules or initialisation ramdisk detected\n");
+        panic("module: No modules or initialisation ramdisk detected");
     }
 }
