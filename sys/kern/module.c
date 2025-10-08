@@ -15,23 +15,21 @@
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#include <limine.h>
 #include <stddef.h>
 #include <stdint.h>
 
-#include <osiris/arch/x86_64/request.h>
-#include <osiris/dev/atkbd.h>
-#include <osiris/dev/liminefb.h>
-#include <osiris/kern/alloc.h>
-#include <osiris/kern/panic.h>
-#include <osiris/kern/portb.h>
-#include <osiris/kern/printk.h>
 #include <osiris/kern/module.h>
+#include <osiris/kern/printk.h>
+#include <osiris/arch/x86_64/request.h>
+#include <osiris/kern/panic.h>
 
-void
-kernel_init ()
+void module_init()
 {
-  module_init();
-  for (;;)
-    asm volatile ("hlt");
+    if (module_request.response && module_request.response->module_count > 0)
+    {
+        printk("module: detected %d modules\n", module_request.response->module_count);
+    }
+    else {
+        panic("module: No modules or initialisation ramdisk detected\n");
+    }
 }

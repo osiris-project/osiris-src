@@ -15,23 +15,9 @@
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#include <limine.h>
-#include <stddef.h>
-#include <stdint.h>
+#ifndef _OSIRIS_MODULE_H
+#define _OSIRIS_MODULE_H
 
-#include <osiris/arch/x86_64/request.h>
-#include <osiris/dev/atkbd.h>
-#include <osiris/dev/liminefb.h>
-#include <osiris/kern/alloc.h>
-#include <osiris/kern/panic.h>
-#include <osiris/kern/portb.h>
-#include <osiris/kern/printk.h>
-#include <osiris/kern/module.h>
+void module_init();
 
-void
-kernel_init ()
-{
-  module_init();
-  for (;;)
-    asm volatile ("hlt");
-}
+#endif /* _OSIRIS_MODULE_H */
