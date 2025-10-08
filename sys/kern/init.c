@@ -22,7 +22,7 @@
 #include <osiris/arch/x86_64/request.h>
 #include <osiris/dev/atkbd.h>
 #include <osiris/dev/liminefb.h>
-#include <osiris/kern/alloc.h>
+#include <osiris/arch/x86_64/page.h>
 #include <osiris/kern/panic.h>
 #include <osiris/kern/portb.h>
 #include <osiris/kern/printk.h>
