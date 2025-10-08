@@ -24,10 +24,6 @@
 # Other targets should be self-explanatory, or targeted at the developer.
 #
 
-# You can use clang. However, be aware that I have never built this kernel
-# with clang. Don't expect support for it. It will also require heavy
-# modification of the Makefile.
-
 # Detect the number of cores and use all of them during the build. Shouldn't be 
 # a problem as the kernel is pretty small. However, there have been some race
 # conditions with Limine compilation so turn these on at your own risk. 1 
@@ -44,17 +40,13 @@ IMG	= build/osiris.iso
 #
 # Don't get a x86_64 cross compiler for this kind of job, the system one
 # is enough.
-CC	= gcc
+CC	= clang
 LD	= ld
-# .asm files are incompatible with as
 AS	= nasm
 OBJCOPY	= objcopy
 
 
 # Compiler flags.
-# 
-# Do not change these unless you know what you are doing. All of them are here
-# for a reason.
 CFLAGS	= -Wall -Wextra -ffreestanding -O0 -std=gnu11 -fno-stack-protector \
 		 -fno-stack-check -fno-lto -fno-PIC -ffunction-sections \
 		 -fdata-sections -m64 -march=x86-64 -mabi=sysv -mno-80387 -mno-mmx \
@@ -77,12 +69,10 @@ ASM_OBJS = $(patsubst %.asm,$(BUILD_DIR)/%.o,$(ASM_SRCS))
 
 OBJS = $(C_OBJS) $(ASM_OBJS)
 
-# The final kernel ELF binary
 KERNEL_ELF = build/bin/osiris.elf
 
 .PHONY: all iso run font limine clean kernel clang-format help rebuild check-deps
 
-# This will tell the user about the targets by default.
 .DEFAULT_GOAL := help
 
 help:
