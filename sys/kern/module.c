@@ -18,18 +18,21 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include <osiris/kern/module.h>
-#include <osiris/kern/printk.h>
 #include <osiris/arch/x86_64/request.h>
+#include <osiris/kern/module.h>
 #include <osiris/kern/panic.h>
+#include <osiris/kern/printk.h>
 
-void module_init()
+void
+module_init ()
 {
-    if (module_request.response && module_request.response->module_count > 0)
+  if (module_request.response && module_request.response->module_count > 0)
     {
-        printk("module: detected %d modules\n", module_request.response->module_count);
+      printk ("module: detected %d modules\n",
+              module_request.response->module_count);
     }
-    else {
-        panic("module: No modules or initialisation ramdisk detected");
+  else
+    {
+      panic ("module: No modules or initialisation ramdisk detected");
     }
 }

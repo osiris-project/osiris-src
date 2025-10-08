@@ -6,9 +6,9 @@
  */
 
 #include <limine.h>
+#include <osiris/arch/x86_64/page.h>
 #include <osiris/arch/x86_64/request.h>
 #include <osiris/arch/x86_64/vmm/vmm_map.h>
-#include <osiris/arch/x86_64/page.h>
 #include <osiris/kern/panic.h>
 #include <osiris/kern/printk.h>
 #include <osiris/lib/string.h>

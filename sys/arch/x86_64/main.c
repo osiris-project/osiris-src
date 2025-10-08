@@ -19,13 +19,15 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include <osiris/arch/x86_64/heap.h>
+#include <osiris/arch/x86_64/page.h>
 #include <osiris/arch/x86_64/request.h>
 #include <osiris/dev/atkbd.h>
 #include <osiris/dev/liminefb.h>
-#include <osiris/arch/x86_64/page.h>
 #include <osiris/kern/panic.h>
 #include <osiris/kern/portb.h>
 #include <osiris/kern/printk.h>
+#include <osiris/lib/string.h>
 
 extern void gdt_init ();
 extern void idt_init ();
@@ -36,6 +38,14 @@ extern void vmm_init ();
 extern void kernel_init ();
 
 const char *banner = "Osiris/x86_64 init\n";
+
+void heap_test() {
+    printk("Heap test starting...\n");
+
+    void *a = malloc(1024);    // allocate 1 KB
+    //void *b = malloc(2048);    // allocate 2 KB
+    //void *c = malloc(4096);    // allocate 4 KB
+}
 
 void
 x64_main ()
@@ -50,6 +60,8 @@ x64_main ()
   atkbd_init ();
   pmm_init ();
   vmm_init ();
+  heap_init ();
+  heap_test();
   /* Transfer control to the main init() function*/
   kernel_init ();
 }

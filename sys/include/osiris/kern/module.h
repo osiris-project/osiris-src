@@ -18,6 +18,6 @@
 #ifndef _OSIRIS_MODULE_H
 #define _OSIRIS_MODULE_H
 
-void module_init();
+void module_init ();
 
 #endif /* _OSIRIS_MODULE_H */

@@ -19,19 +19,19 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include <osiris/arch/x86_64/page.h>
 #include <osiris/arch/x86_64/request.h>
 #include <osiris/dev/atkbd.h>
 #include <osiris/dev/liminefb.h>
-#include <osiris/arch/x86_64/page.h>
+#include <osiris/kern/module.h>
 #include <osiris/kern/panic.h>
 #include <osiris/kern/portb.h>
 #include <osiris/kern/printk.h>
-#include <osiris/kern/module.h>
 
 void
 kernel_init ()
 {
-  module_init();
+  module_init ();
   for (;;)
     asm volatile ("hlt");
 }
