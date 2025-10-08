@@ -31,6 +31,8 @@
 # NUM_CORES ?= $(shell nproc)
 # MAKEFLAGS += -j$(NUM_CORES)
 
+SHELL := /bin/bash
+
 # Name of the image we're going to build
 IMG	= build/osiris.iso
 
@@ -121,10 +123,7 @@ $(IMG): $(BUILD_DIR) font limine $(KERNEL_ELF)
         -efi-boot-part --efi-boot-image --protective-msdos-label \
         usr -o $(IMG)
 	@./limine/limine bios-install $(IMG)
-	@# There seems to be an error that's preventing this from working in 
-	@# this Makefile. If you want to update the symbol table, put this in
-	@# your shell manually.
-	@# nm -n usr/boot/osiris.elf | awk '$2=="T" { printf("{0x%s, \"%s\"},\n", $1, $3) }' > sys/include/osiris/kern/ksyms.h
+	./tools/generate_ksyms.sh
 
 limine:
 	git clone https://codeberg.org/Limine/Limine.git limine --branch=v10.x-binary --depth=1 || true
