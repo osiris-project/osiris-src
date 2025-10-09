@@ -110,9 +110,9 @@ $(IMG): $(BUILD_DIR) font limine $(KERNEL_ELF)
 	@$(shell command -v gcc >/dev/null 2>&1 || { echo "gcc not installed"; exit 1; })
 	@$(shell command -v nasm >/dev/null 2>&1 || { echo "nasm not installed"; exit 1; })
 
-	tar -cf usr/boot/initrd.tar rootfs/README.txt
-
 	@mkdir -p usr/boot/limine
+	@touch usr/boot/initrd.tar
+	@tar -cf usr/boot/initrd.tar rootfs/README.txt
 	@mkdir -p usr/EFI/BOOT
 	@cp -v $(KERNEL_ELF) usr/boot/osiris.elf
 	@cp -v limine.conf limine/limine-bios.sys limine/limine-bios-cd.bin \
