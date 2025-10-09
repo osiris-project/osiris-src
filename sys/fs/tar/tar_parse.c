@@ -133,7 +133,6 @@ tarfs_read (char *name, void *buf, int bufsize)
       printk ("tarfs: invalid addr\n");
       return 0;
     }
-  printk ("tarfs: reading from path %s\n", name);
   if (bufsize > size)
     bufsize = size;
   memcpy (buf, addr, bufsize);

@@ -23,15 +23,26 @@
 #include <osiris/arch/x86_64/request.h>
 #include <osiris/dev/atkbd.h>
 #include <osiris/dev/liminefb.h>
+#include <osiris/fs/tar/tar_parse.h>
 #include <osiris/kern/module.h>
 #include <osiris/kern/panic.h>
 #include <osiris/kern/portb.h>
 #include <osiris/kern/printk.h>
 
 void
+read_readme ()
+{
+  char buf[128];
+  int bytes = tarfs_read ("rootfs/README.txt", buf, sizeof (buf) - 1);
+  buf[bytes] = 0;
+  printk ("%s\n", buf);
+}
+
+void
 kernel_init ()
 {
   module_init ();
+  read_readme ();
   for (;;)
     asm volatile ("hlt");
 }
