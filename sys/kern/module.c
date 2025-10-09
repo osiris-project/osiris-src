@@ -19,10 +19,11 @@
 #include <stdint.h>
 
 #include <osiris/arch/x86_64/request.h>
+#include <osiris/fs/tar/tar_parse.h>
 #include <osiris/kern/module.h>
 #include <osiris/kern/panic.h>
 #include <osiris/kern/printk.h>
-
+#include <osiris/kern/vfs_mount.h>
 void
 module_init ()
 {
@@ -35,4 +36,10 @@ module_init ()
     {
       panic ("module: No modules or initialisation ramdisk detected");
     }
+  void *tar_addr = module_request.response->modules[0]->address;
+  uint64_t tar_size = module_request.response->modules[0]->size;
+  printk ("module: found initrd at %llx (%dB)\n", tar_addr, tar_size);
+
+  tarfs_init (tar_addr);
+  vfs_mount ("initrd0", "/", "ustar");
 }

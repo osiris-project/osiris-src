@@ -15,23 +15,18 @@
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#include <limine.h>
-#include <stddef.h>
+#ifndef _OSIRIS_VFS_MOUNT_H
+#define _OSIRIS_VFS_MOUNT_H
+
 #include <stdint.h>
 
-#include <osiris/arch/x86_64/page.h>
-#include <osiris/arch/x86_64/request.h>
-#include <osiris/dev/atkbd.h>
-#include <osiris/dev/liminefb.h>
-#include <osiris/kern/module.h>
-#include <osiris/kern/panic.h>
-#include <osiris/kern/portb.h>
-#include <osiris/kern/printk.h>
-
-void
-kernel_init ()
+typedef struct fs_operations
 {
-  module_init ();
-  for (;;)
-    asm volatile ("hlt");
-}
+  int (*open) (char *path, int flags);
+  int (*close) (int fd);
+  int (*read) (char *name, void *buffer, int count);
+} fs_operations_t;
+
+void vfs_mount (char *device, char *target, char *fs_type);
+
+#endif /* _OSIRIS_VFS_MOUNT_H */

@@ -15,23 +15,11 @@
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#include <limine.h>
-#include <stddef.h>
+#ifndef _OSIRIS_TAR_OCTAL_H
+#define _OSIRIS_TAR_OCTAL_H
+
 #include <stdint.h>
 
-#include <osiris/arch/x86_64/page.h>
-#include <osiris/arch/x86_64/request.h>
-#include <osiris/dev/atkbd.h>
-#include <osiris/dev/liminefb.h>
-#include <osiris/kern/module.h>
-#include <osiris/kern/panic.h>
-#include <osiris/kern/portb.h>
-#include <osiris/kern/printk.h>
+uint64_t oct2bin (char *str, int size);
 
-void
-kernel_init ()
-{
-  module_init ();
-  for (;;)
-    asm volatile ("hlt");
-}
+#endif /* _OSIRIS_TAR_OCTAL_H */

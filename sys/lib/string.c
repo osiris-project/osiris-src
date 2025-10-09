@@ -1,3 +1,4 @@
+#include <stddef.h>
 #include <stdint.h>
 #include <osiris/lib/string.h>
 
@@ -67,4 +68,20 @@ memcmp (const void *s1, const void *s2, int n)
     }
 
   return 0;
+}
+
+size_t
+kstrlen (const char *s)
+{
+  size_t i = 0;
+  while (s[i])
+    i++;
+  return i;
+}
+
+void
+kstrcpy (char *dst, const char *src)
+{
+  while ((*dst++ = *src++))
+    ;
 }

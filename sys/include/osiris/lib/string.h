@@ -22,5 +22,7 @@ void *memcpy (void *restrict dest, const void *restrict src, int n);
 void *memset (void *s, int c, int n);
 void *memmove (void *dest, const void *src, int n);
 int memcmp (const void *s1, const void *s2, int n);
+size_t kstrlen (const char *s);
+void kstrcpy (char *dst, const char *src);
 
 #endif /* _OSIRIS_LIB_STRING_H */

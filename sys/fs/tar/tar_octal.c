@@ -14,24 +14,16 @@
  * OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
-
-#include <limine.h>
-#include <stddef.h>
 #include <stdint.h>
+#include <osiris/fs/tar/tar_octal.h>
 
-#include <osiris/arch/x86_64/page.h>
-#include <osiris/arch/x86_64/request.h>
-#include <osiris/dev/atkbd.h>
-#include <osiris/dev/liminefb.h>
-#include <osiris/kern/module.h>
-#include <osiris/kern/panic.h>
-#include <osiris/kern/portb.h>
-#include <osiris/kern/printk.h>
-
-void
-kernel_init ()
+uint64_t
+oct2bin (char *str, int size)
 {
-  module_init ();
-  for (;;)
-    asm volatile ("hlt");
+  uint64_t n = 0;
+  for (int i = 0; i < size && str[i]; i++)
+    {
+      n = (n << 3) + (str[i] - '0');
+    }
+  return n;
 }

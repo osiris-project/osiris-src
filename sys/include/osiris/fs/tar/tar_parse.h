@@ -15,23 +15,17 @@
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#include <limine.h>
+#ifndef _OSIRIS_TAR_PARSE_H
+#define _OSIRIS_TAR_PARSE_H
+
 #include <stddef.h>
 #include <stdint.h>
+#include <osiris/kern/vfs_mount.h>
 
-#include <osiris/arch/x86_64/page.h>
-#include <osiris/arch/x86_64/request.h>
-#include <osiris/dev/atkbd.h>
-#include <osiris/dev/liminefb.h>
-#include <osiris/kern/module.h>
-#include <osiris/kern/panic.h>
-#include <osiris/kern/portb.h>
-#include <osiris/kern/printk.h>
+void tarfs_init (void *tar_start);
+void *tarfs_find (const char *name, uint64_t *size_out);
+int tarfs_read (char *name, void *buf, int bufsize);
 
-void
-kernel_init ()
-{
-  module_init ();
-  for (;;)
-    asm volatile ("hlt");
-}
+extern fs_operations_t ustar_ops;
+
+#endif /* _OSIRIS_TAR_PARSE_H */
