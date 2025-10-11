@@ -15,11 +15,8 @@
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _OSIRIS_TAR_OCTAL_H
-#define _OSIRIS_TAR_OCTAL_H
+#pragma once
 
 #include <stdint.h>
 
 uint64_t oct2bin (char *str, int size);
-
-#endif /* _OSIRIS_TAR_OCTAL_H */

@@ -15,8 +15,7 @@
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _OSIRIS_VFS_MOUNT_H
-#define _OSIRIS_VFS_MOUNT_H
+#pragma once
 
 #include <stdint.h>
 
@@ -30,5 +29,3 @@ typedef struct fs_operations
 } fs_operations_t;
 
 void vfs_mount (char *device, char *target, char *fs_type);
-
-#endif /* _OSIRIS_VFS_MOUNT_H */

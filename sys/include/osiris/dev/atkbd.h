@@ -15,12 +15,9 @@
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _OSIRIS_ATKBD_H
-#define _OSIRIS_ATKBD_H
+#pragma once
 
 void atkbd_init ();
 void atkbd_enable ();
 void atkbd_disable ();
 char atkbd_get_char ();
-
-#endif /* _OSIRIS_ATKBD_H */

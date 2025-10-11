@@ -15,8 +15,7 @@
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _OSIRIS_TAR_PARSE_H
-#define _OSIRIS_TAR_PARSE_H
+#pragma once
 
 #include <stddef.h>
 #include <stdint.h>
@@ -29,5 +28,3 @@ int tarfs_close (void *fd);
 int tarfs_read (char *name, void *buf, int bufsize);
 
 extern fs_operations_t ustar_ops;
-
-#endif /* _OSIRIS_TAR_PARSE_H */

@@ -15,9 +15,6 @@
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _OSIRIS_LIB_STRCMP_H
-#define _OSIRIS_LIB_STRCMP_H
+#pragma once
 
 int kstrcmp (const char *s1, const char *s2);
-
-#endif /* _OSIRIS_LIB_STRCMP_H */

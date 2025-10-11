@@ -15,12 +15,9 @@
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _OSIRIS_PORTB_H
-#define _OSIRIS_PORTB_H
+#pragma once
 
 #include <stdint.h>
 
 uint8_t inb (uint16_t port);
 void outb (uint16_t port, uint8_t val);
-
-#endif /* _OSIRIS_PORTB_H */
