@@ -17,3 +17,5 @@ Now we can proceed onto building. Osiris has many targets. If you want to automa
   make all
 ```  
 These instructions will most likely be changed in the near future.
+
+[Discord server](https://discord.gg/rcAPjdWu)
