@@ -133,7 +133,7 @@ vfs_mount (char *device, char *target, char *fs_type)
     }
 
   vfs_add_mountpoint (mp);
-  printk ("%s: created device\n", device);
+  printk ("vfs: mounted %s fs on %s\n", fs_type, target);
 }
 
 /* Unmount a path */
