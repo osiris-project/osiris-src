@@ -353,7 +353,7 @@ atkbd_get_char ()
 
 /* Actual read() function for vfs */
 int
-kbd_read (void *node, void *buf, int size)
+kbd_read (char *node, void *buf, int size)
 {
   (void)node; /* unused */
   char *out = (char *)buf;

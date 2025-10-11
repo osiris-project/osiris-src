@@ -22,9 +22,11 @@
 
 typedef struct fs_operations
 {
+  void *(*lookup)(void *fs_data, const char *name);
   int (*open) (char *path, int flags);
   int (*close) (int fd);
   int (*read) (char *name, void *buffer, int count);
+  int (*write)(char *name, void *buf, int size);
 } fs_operations_t;
 
 void vfs_mount (char *device, char *target, char *fs_type);

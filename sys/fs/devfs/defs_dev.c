@@ -34,7 +34,7 @@ devfs_node_t *devfs_root = NULL;
 
 /* Read from a node */
 int
-devfs_read (void *node, void *buffer, int size)
+devfs_read (char *node, void *buffer, int size)
 {
   devfs_node_t *dev = (devfs_node_t *)node;
   if (dev->ops && dev->ops->read)
@@ -44,7 +44,7 @@ devfs_read (void *node, void *buffer, int size)
 
 /* Write to a node */
 int
-devfs_write (void *node, void *buffer, int size)
+devfs_write (char *node, void *buffer, int size)
 {
   devfs_node_t *dev = (devfs_node_t *)node;
   if (dev->ops && dev->ops->write)
