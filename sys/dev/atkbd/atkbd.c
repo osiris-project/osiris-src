@@ -23,6 +23,7 @@
 #include <osiris/dev/liminefb.h>
 #include <osiris/kern/portb.h>
 #include <osiris/kern/printk.h>
+#include <osiris/kern/vfs_mount.h>
 #include <osiris/lib/strcmp.h>
 
 char key_buffer[256];
@@ -337,17 +338,37 @@ atkbd_init ()
   atkbd_set_led (current_led_mask);
 }
 
-/* Blocking function to retrieve the next typed char */
+/* Blocking function to retrieve next typed char */
 char
 atkbd_get_char ()
 {
   while (buffer_start == buffer_end)
     ;
-
   asm volatile ("cli");
   char ch = key_buffer[buffer_start];
   buffer_start = (buffer_start + 1) % 256;
   asm volatile ("sti");
-
   return ch;
 }
+
+/* Actual read() function for vfs */
+int
+kbd_read (void *node, void *buf, int size)
+{
+  (void)node; /* unused */
+  char *out = (char *)buf;
+
+  for (int i = 0; i < size; i++)
+    {
+      out[i] = atkbd_get_char ();
+    }
+
+  return size;
+}
+
+fs_operations_t kbd_ops = {
+  .open = NULL,
+  .close = NULL,
+  .read = kbd_read,
+  .write = NULL,
+};

@@ -139,8 +139,16 @@ tarfs_read (char *name, void *buf, int bufsize)
   return bufsize;
 }
 
+/* Sadly we have to resort to this ugly hack in order to make this compatible
+ * with the vfs, hopefully it won't interfere too much */
+int
+tarfs_read_adapter (void *node, void *buf, int size)
+{
+  return tarfs_read ((char *)node, buf, size);
+}
+
 fs_operations_t ustar_ops = {
   .open = NULL,
   .close = NULL,
-  .read = tarfs_read,
+  .read = tarfs_read_adapter,
 };

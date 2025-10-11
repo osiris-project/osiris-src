@@ -21,6 +21,7 @@
 
 #include <osiris/arch/x86_64/heap.h>
 #include <osiris/arch/x86_64/request.h>
+#include <osiris/fs/devfs/devfs_dev.h>
 #include <osiris/fs/tar/tar_parse.h>
 #include <osiris/kern/module.h>
 #include <osiris/kern/panic.h>
@@ -126,6 +127,10 @@ vfs_mount (char *device, char *target, char *fs_type)
     {
       mp->operations = ustar_ops;
     }
+  else if (kstrcmp (fs_type, "devfs") == 0)
+    {
+      mp->operations = devfs_ops;
+    }
   else
     {
       printk ("vfs: vfs_mount: unsupported filesystem\n");
@@ -153,4 +158,38 @@ vfs_umount (char *device, char *target)
         }
       cur = cur->next;
     }
+}
+
+void *
+vfs_find_node (char *path)
+{
+  mountpoint_t *mp = mountpoints_root;
+
+  while (mp)
+    {
+      int mount_len = kstrlen (mp->mountpoint);
+
+      int i;
+      for (i = 0; i < mount_len; i++)
+        {
+          if (path[i] != mp->mountpoint[i])
+            break;
+        }
+
+      if (i == mount_len && (path[i] == '/' || path[i] == '\0'))
+        {
+          char *relpath = path + mount_len;
+          if (*relpath == '/')
+            relpath++;
+
+          if (mp->operations.lookup)
+            return mp->operations.lookup (NULL, relpath);
+
+          return NULL;
+        }
+
+      mp = mp->next;
+    }
+
+  return NULL;
 }

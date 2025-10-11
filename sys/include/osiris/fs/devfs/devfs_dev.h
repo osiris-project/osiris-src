@@ -15,39 +15,27 @@
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#include <limine.h>
-#include <stdbool.h>
+#ifndef _OSIRIS_DEVFS_DEV_H
+#define _OSIRIS_DEVFS_DEV_H
+
 #include <stddef.h>
 #include <stdint.h>
-
-#include <osiris/arch/x86_64/page.h>
-#include <osiris/arch/x86_64/request.h>
-#include <osiris/dev/atkbd.h>
-#include <osiris/dev/liminefb.h>
-#include <osiris/fs/devfs/devfs_dev.h>
-#include <osiris/fs/tar/tar_parse.h>
-#include <osiris/kern/module.h>
-#include <osiris/kern/panic.h>
-#include <osiris/kern/portb.h>
-#include <osiris/kern/printk.h>
 #include <osiris/kern/vfs_mount.h>
-#include <osiris/lib/strcmp.h>
 
-void
-read_readme ()
+typedef struct devfs_node
 {
-  char buf[128];
-  int bytes = tarfs_read ("rootfs/README.txt", buf, sizeof (buf) - 1);
-  buf[bytes] = 0;
-  printk ("%s\n", buf);
-}
+  char name[12];
+  fs_operations_t *ops;
+  void *data;
+  struct devfs_node *next;
+} devfs_node_t;
 
-void
-kernel_init ()
-{
-  module_init ();
-  devfs_init ();
-  read_readme ();
-  for (;;)
-    asm volatile ("hlt");
-}
+extern devfs_node_t *devfs_root;
+
+void devfs_init ();
+int devfs_read (void *node, void *buffer, int size);
+int devfs_write (void *node, void *buffer, int size);
+
+extern fs_operations_t devfs_ops;
+
+#endif /* _OSIRIS_DEVFS_DEV_H */
