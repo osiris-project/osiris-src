@@ -33,6 +33,7 @@ typedef struct devfs_node
 extern devfs_node_t *devfs_root;
 
 void devfs_init ();
+void *devfs_lookup (void *fs_data, const char *name);
 int devfs_read (char *node, void *buffer, int size);
 int devfs_write (char *node, void *buffer, int size);
 
