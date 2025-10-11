@@ -17,6 +17,7 @@
 
 #include <stddef.h>
 #include <stdint.h>
+#include <osiris/arch/x86_64/heap.h>
 #include <osiris/fs/tar/tar_octal.h>
 #include <osiris/kern/printk.h>
 #include <osiris/kern/vfs_mount.h>
@@ -47,6 +48,7 @@ typedef struct
 } __attribute__ ((packed)) tar_header_t;
 
 #define MAX_TAR_FILES 64
+#define MAX_TAR_OPEN 16
 
 typedef enum
 {
@@ -61,6 +63,12 @@ typedef struct
   uint64_t size;
   tar_filetype_t type;
 } tar_file_t;
+
+typedef struct
+{
+  tar_file_t *file;
+  uint64_t offset;
+} tar_fd_t;
 
 tar_file_t tar_files[MAX_TAR_FILES];
 int tar_file_count = 0;
@@ -126,21 +134,63 @@ tarfs_find (const char *name, uint64_t *size_out)
 int
 tarfs_read (char *name, void *buf, int bufsize)
 {
-  uint64_t size;
-  void *addr = tarfs_find (name, &size);
-  if (!addr)
-    {
-      printk ("tarfs: invalid addr\n");
-      return 0;
-    }
-  if (bufsize > size)
-    bufsize = size;
-  memcpy (buf, addr, bufsize);
+  /* This cast is necessary due to the fact that having void* as argument breaks
+   * compatability with devfs */
+  /* TODO: Not rely on this??? */
+  tar_fd_t *handle = (tar_fd_t *)name;
+  if (!handle || !handle->file)
+    return 0;
+
+  uint64_t remaining = handle->file->size - handle->offset;
+  if ((uint64_t)bufsize > remaining)
+    bufsize = remaining;
+
+  memcpy (buf, (uint8_t *)handle->file->addr + handle->offset, bufsize);
+  handle->offset += bufsize;
+
   return bufsize;
 }
 
+/* Open a file, int flags is unused */
+void *
+tarfs_open (char *file, int flags)
+{
+  for (int i = 0; i < tar_file_count; i++)
+    {
+      if (kstrcmp (file, tar_files[i].name) == 0)
+        {
+          if (tar_files[i].type != TAR_FILE)
+            {
+              printk ("tarfs: tarfs_open: *name is not a file\n");
+              return NULL;
+            }
+          tar_fd_t *handle = kmalloc (sizeof (tar_fd_t));
+          if (!handle)
+            {
+              printk ("tarfs: tarfs_open: failed to alloc handle\n");
+              return NULL;
+            }
+          handle->file = &tar_files[i];
+          handle->offset = 0;
+          return handle;
+        }
+    }
+  printk ("tarfs: tarfs_open: file not found\n");
+  return NULL;
+}
+
+/* Close a file */
+int
+tarfs_close (void *fd)
+{
+  tar_fd_t *handle = (tar_fd_t *)fd;
+  if (handle)
+    kfree (handle);
+  return 0;
+}
+
 fs_operations_t ustar_ops = {
-  .open = NULL,
-  .close = NULL,
+  .open = tarfs_open,
+  .close = tarfs_close,
   .read = tarfs_read,
 };
