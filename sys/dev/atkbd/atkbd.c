@@ -234,12 +234,6 @@ atkbd_process_extended (uint8_t scancode)
     case 0x38:
       alt_down = true;
       break;
-    case 0x1C:
-      atkbd_add_buffer ('\n');
-      break;
-    case 0x0E:
-      atkbd_add_buffer ('\b');
-      break;
     default:
       return;
     }
@@ -318,7 +312,6 @@ atkbd_irq ()
       if (ch != 0)
         {
           atkbd_add_buffer (ch);
-          liminefb_putchar (ch, 0xffffff);
         }
     }
   outb (0x20, 0x20);
