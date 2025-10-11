@@ -18,4 +18,4 @@ Now we can proceed onto building. Osiris has many targets. If you want to automa
 ```  
 These instructions will most likely be changed in the near future.
 
-[https://discord.gg/rcAPjdWu](Discord server)
+[Discord server](https://discord.gg/rcAPjdWu)
