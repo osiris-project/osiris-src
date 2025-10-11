@@ -42,21 +42,22 @@ x64_main ()
   gdt_init ();
   tss_init ();
   idt_init ();
+
+  liminefb_init ();
+  printk("Osiris/x86_64 [text=0x%llx rodata=0x%llx data=0x%llx]\n", _text_end, _rodata_end, _data_end);
+
+  pmm_init ();
+
+  vmm_init ();
+
+  heap_init ();
   
   /* Disable keyboard for now and turn on interrupts so PIT can start ticking */
   atkbd_disable ();
   asm volatile ("sti");
-  
-  liminefb_init ();
-  printk("Osiris/x86_64 [text=0x%llx rodata=0x%llx data=0x%llx]\n", _text_end, _rodata_end, _data_end);
-  
+
   atkbd_init ();
 
-  pmm_init ();
-  
-  vmm_init ();
-  
-  heap_init ();
   /* Transfer control to the main init() function*/
   kernel_init ();
 }
