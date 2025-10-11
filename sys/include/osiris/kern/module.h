@@ -15,9 +15,6 @@
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _OSIRIS_MODULE_H
-#define _OSIRIS_MODULE_H
+#pragma once
 
 void module_init ();
-
-#endif /* _OSIRIS_MODULE_H */

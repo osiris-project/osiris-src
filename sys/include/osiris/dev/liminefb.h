@@ -15,8 +15,7 @@
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _OSIRIS_LIMINEFB_H
-#define _OSIRIS_LIMINEFB_H
+#pragma once
 
 #include <stdint.h>
 
@@ -25,5 +24,3 @@ void liminefb_newline ();
 void liminefb_putchar (char c, uint32_t color);
 void liminefb_putstr (char *str, uint32_t color);
 void liminefb_erase_char ();
-
-#endif /* _OSIRIS_LIMINEFB_H */

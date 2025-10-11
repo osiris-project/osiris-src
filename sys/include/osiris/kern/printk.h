@@ -15,11 +15,8 @@
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _OSIRIS_PRINTK_H
-#define _OSIRIS_PRINTK_H
+#pragma once
 
 #include <stdint.h>
 
 void printk (const char *fmt, ...);
-
-#endif /* _OSIRIS_PRINTK_H */

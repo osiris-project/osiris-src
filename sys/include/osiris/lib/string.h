@@ -15,8 +15,7 @@
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _OSIRIS_LIB_STRING_H
-#define _OSIRIS_LIB_STRING_H
+#pragma once
 
 void *memcpy (void *restrict dest, const void *restrict src, int n);
 void *memset (void *s, int c, int n);
@@ -24,5 +23,3 @@ void *memmove (void *dest, const void *src, int n);
 int memcmp (const void *s1, const void *s2, int n);
 size_t kstrlen (const char *s);
 void kstrcpy (char *dst, const char *src);
-
-#endif /* _OSIRIS_LIB_STRING_H */

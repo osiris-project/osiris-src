@@ -15,9 +15,6 @@
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _OSIRIS_PANIC_H
-#define _OSIRIS_PANIC_H
+#pragma once
 
 void panic (const char *fmt);
-
-#endif /* _OSIRIS_PANIC_H */

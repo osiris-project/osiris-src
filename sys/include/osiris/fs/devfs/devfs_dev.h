@@ -15,8 +15,8 @@
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _OSIRIS_DEVFS_DEV_H
-#define _OSIRIS_DEVFS_DEV_H
+
+#pragma once
 
 #include <stddef.h>
 #include <stdint.h>
@@ -38,5 +38,3 @@ int devfs_read (char *node, void *buffer, int size);
 int devfs_write (char *node, void *buffer, int size);
 
 extern fs_operations_t devfs_ops;
-
-#endif /* _OSIRIS_DEVFS_DEV_H */
