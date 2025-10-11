@@ -151,9 +151,9 @@ tarfs_read (char *name, void *buf, int bufsize)
   return bufsize;
 }
 
-/* Open a file, int flags is unused */
+/* Open a file */
 void *
-tarfs_open (char *file, int flags)
+tarfs_open (char *file)
 {
   for (int i = 0; i < tar_file_count; i++)
     {

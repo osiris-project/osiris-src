@@ -22,7 +22,7 @@
 typedef struct fs_operations
 {
   void *(*lookup) (void *fs_data, const char *name);
-  void *(*open) (char *path, int flags);
+  void *(*open) (char *path);
   int (*close) (void *fd);
   int (*read) (char *name, void *buffer, int count);
   int (*write) (char *name, void *buf, int size);
