@@ -17,7 +17,6 @@
 
 #include <stdbool.h>
 #include <stddef.h>
-#include <string.h>
 
 #include <osiris/arch/x86_64/heap.h>
 #include <osiris/dev/atkbd.h>
@@ -27,6 +26,7 @@
 #include <osiris/kern/printk.h>
 #include <osiris/kern/vfs_mount.h>
 #include <osiris/lib/strcmp.h>
+#include <osiris/lib/string.h>
 
 char* key_buffer;
 int buffer_allocs = 1;
