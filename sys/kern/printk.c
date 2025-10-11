@@ -123,9 +123,3 @@ printk (const char *fmt, ...)
   va_end (args);
   liminefb_putstr (buffer, 0xffffff);
 }
-
-void
-log (const char *subsystem, const char *msg)
-{
-  printk ("%s: %s", subsystem, msg);
-}

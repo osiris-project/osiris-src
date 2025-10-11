@@ -21,6 +21,5 @@
 #include <stdint.h>
 
 void printk (const char *fmt, ...);
-void log (const char *subsystem, const char *msg);
 
 #endif /* _OSIRIS_PRINTK_H */
