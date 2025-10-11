@@ -14,11 +14,6 @@
 #include <osiris/kern/printk.h>
 #include <osiris/lib/string.h>
 
-extern uint8_t _text_start[], _text_end[];
-extern uint8_t _rodata_start[], _rodata_end[];
-extern uint8_t _data_start[], _data_end[];
-extern uint8_t _bss_start[], _bss_end[];
-
 pagemap_t *kernel_pagemap = NULL;
 
 static bool

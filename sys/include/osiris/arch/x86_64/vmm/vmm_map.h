@@ -12,6 +12,11 @@
 #include <stdint.h>
 #include <osiris/arch/x86_64/request.h>
 
+extern uint8_t _text_start[], _text_end[];
+extern uint8_t _rodata_start[], _rodata_end[];
+extern uint8_t _data_start[], _data_end[];
+extern uint8_t _bss_start[], _bss_end[];
+
 /* Page size definition */
 #define PAGE_SIZE 4096
 
