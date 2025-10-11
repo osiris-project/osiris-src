@@ -163,7 +163,7 @@ atkbd_query_set ()
 
   return set;
 no_reply:
-  log ("atkbd", "atkbd_query_set: no reply\n");
+  printk ("atkbd: atkbd_query_set: no reply\n");
   set = 0x01;
   return set;
 }

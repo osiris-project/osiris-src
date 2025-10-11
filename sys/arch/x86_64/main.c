@@ -21,8 +21,8 @@
 
 #include <osiris/arch/x86_64/heap.h>
 #include <osiris/arch/x86_64/page.h>
-#include <osiris/arch/x86_64/vmm/vmm_map.h>
 #include <osiris/arch/x86_64/request.h>
+#include <osiris/arch/x86_64/vmm/vmm_map.h>
 #include <osiris/dev/atkbd.h>
 #include <osiris/dev/liminefb.h>
 #include <osiris/kern/panic.h>
@@ -55,8 +55,6 @@ x64_main ()
   /* Disable keyboard for now and turn on interrupts so PIT can start ticking */
   atkbd_disable ();
   asm volatile ("sti");
-
-  atkbd_init ();
 
   /* Transfer control to the main init() function*/
   kernel_init ();

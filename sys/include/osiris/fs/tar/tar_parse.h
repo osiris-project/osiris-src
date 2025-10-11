@@ -24,6 +24,8 @@
 
 void tarfs_init (void *tar_start);
 void *tarfs_find (const char *name, uint64_t *size_out);
+void *tarfs_open (char *file, int flags);
+int tarfs_close (void *fd);
 int tarfs_read (char *name, void *buf, int bufsize);
 
 extern fs_operations_t ustar_ops;

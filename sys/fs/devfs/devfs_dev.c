@@ -36,7 +36,7 @@ devfs_node_t *devfs_root = NULL;
 int
 devfs_read (char *path, void *buffer, int size)
 {
-    devfs_node_t *dev = devfs_lookup(NULL, path);
+  devfs_node_t *dev = devfs_lookup (NULL, path);
   if (dev->ops && dev->ops->read)
     return dev->ops->read (dev->data, buffer, size);
   return -1;
