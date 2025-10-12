@@ -363,7 +363,7 @@ atkbd_get_char ()
 
 /* Actual read() function for vfs */
 int
-kbd_read (char *node, void *buf, int size)
+atkbd_read (char *node, void *buf, int size)
 {
   (void)node; /* unused */
   char *out = (char *)buf;
@@ -379,6 +379,6 @@ kbd_read (char *node, void *buf, int size)
 fs_operations_t kbd_ops = {
   .open = NULL,
   .close = NULL,
-  .read = kbd_read,
+  .read = atkbd_read,
   .write = NULL,
 };

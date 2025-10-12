@@ -52,7 +52,7 @@
 {0xffffffff80002da4, "atkbd_irq"},
 {0xffffffff80002e3f, "atkbd_init"},
 {0xffffffff80002e9d, "atkbd_get_char"},
-{0xffffffff80002ef4, "kbd_read"},
+{0xffffffff80002ef4, "atkbd_read"},
 {0xffffffff80002f4c, "liminefb_erase_cursor"},
 {0xffffffff80003009, "liminefb_redraw_cursor"},
 {0xffffffff80003147, "liminefb_scroll"},
