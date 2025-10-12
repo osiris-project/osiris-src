@@ -32,6 +32,7 @@
 #include <osiris/kern/printk.h>
 #include <osiris/kern/vfs_mount.h>
 #include <osiris/lib/strcmp.h>
+#include <osiris/lib/string.h>
 
 void
 read_readme ()
@@ -62,6 +63,7 @@ read_readme ()
 void
 kernel_init ()
 {
+  atkbd_init();
   module_init ();
   devfs_init ();
   read_readme ();

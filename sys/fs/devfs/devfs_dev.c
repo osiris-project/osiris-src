@@ -46,7 +46,12 @@ devfs_read (char *path, void *buffer, int size)
 int
 devfs_write (char *node, void *buffer, int size)
 {
-  devfs_node_t *dev = (devfs_node_t *)node;
+  devfs_node_t *dev = devfs_lookup(NULL, node);
+  if (!dev)
+    {
+      printk("devfs: devfs_write: %s not found", node);
+      return -1;
+    }
   if (dev->ops && dev->ops->write)
     return dev->ops->write (dev->data, buffer, size);
   return -1;
@@ -100,6 +105,8 @@ devfs_init ()
 {
   extern char key_buffer[];
   extern fs_operations_t kbd_ops;
+  extern fs_operations_t liminefb_ops;
   vfs_mount ("devfs", "/dev", "devfs");
   devfs_register ("kbd", &kbd_ops, key_buffer);
+  devfs_register ("fb", &liminefb_ops, NULL);
 }

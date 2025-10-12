@@ -23,6 +23,7 @@
 #include <osiris/arch/x86_64/request.h>
 #include <osiris/dev/liminefb.h>
 #include <osiris/kern/printk.h>
+#include <osiris/kern/vfs_mount.h>
 
 /* Technically, you can use another font by just changing up the symbol names,
  * however, it must be 8x16, since some numbers are hardcoded here. It also
@@ -233,3 +234,20 @@ liminefb_init ()
   fb_width = framebuffer->width;
   fb_height = framebuffer->height;
 }
+
+int
+liminefb_write (char *node, void *buffer, int size)
+{
+  /* Both are unused for now*/
+  (void)node;
+  (void)size;
+  liminefb_putstr ((char *)buffer, 0xffffff);
+  return 0;
+}
+
+fs_operations_t liminefb_ops = {
+  .open = NULL,
+  .close = NULL,
+  .read = NULL,
+  .write = liminefb_write,
+};

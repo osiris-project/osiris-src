@@ -193,3 +193,73 @@ vfs_find_node (char *path)
 
   return NULL;
 }
+
+int
+vfs_write (char *path, void *buffer, int size)
+{
+  if (!path) {
+        printk("vfs: vfs_write: path not found\n");
+        return -1;
+    }
+  mountpoint_t *mp = mountpoints_root;
+
+  while (mp)
+    {
+      int mount_len = kstrlen (mp->mountpoint);
+      int i;
+      for (i = 0; i < mount_len; i++)
+        {
+          if (path[i] != mp->mountpoint[i])
+            break;
+        }
+
+      if (i == mount_len && (path[i] == '/' || path[i] == '\0'))
+        {
+          char *relpath = path + mount_len;
+          if (*relpath == '/')
+            relpath++;
+
+          if (mp->operations.write)
+            return mp->operations.write (relpath, buffer, size);
+
+          return -1;
+        }
+
+      mp = mp->next;
+    }
+
+  return -1;
+}
+
+int
+vfs_read (char *path, void *buffer, int size)
+{
+  mountpoint_t *mp = mountpoints_root;
+
+  while (mp)
+    {
+      int mount_len = kstrlen (mp->mountpoint);
+      int i;
+      for (i = 0; i < mount_len; i++)
+        {
+          if (path[i] != mp->mountpoint[i])
+            break;
+        }
+
+      if (i == mount_len && (path[i] == '/' || path[i] == '\0'))
+        {
+          char *relpath = path + mount_len;
+          if (*relpath == '/')
+            relpath++;
+
+          if (mp->operations.read)
+            return mp->operations.read (relpath, buffer, size);
+
+          return -1;
+        }
+
+      mp = mp->next;
+    }
+
+  return -1;
+}

@@ -15,7 +15,6 @@
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-
 #pragma once
 
 #include <stddef.h>

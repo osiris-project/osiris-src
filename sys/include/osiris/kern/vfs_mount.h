@@ -28,4 +28,6 @@ typedef struct fs_operations
   int (*write) (char *name, void *buf, int size);
 } fs_operations_t;
 
+int vfs_write (char *path, void *buffer, int size);
+int vfs_read (char *path, void *buffer, int size);
 void vfs_mount (char *device, char *target, char *fs_type);

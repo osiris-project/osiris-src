@@ -28,7 +28,7 @@
 #include <osiris/lib/strcmp.h>
 #include <osiris/lib/string.h>
 
-char* key_buffer;
+char *key_buffer;
 int buffer_allocs = 1;
 volatile int buffer_start = 0;
 volatile int buffer_end = 0;
@@ -70,13 +70,15 @@ atkbd_add_buffer (char ch)
       key_buffer[buffer_end] = ch;
       buffer_end++;
     }
-  else {
-    buffer_allocs++;
-    char* key_buffer_tmp = kmalloc(4096 * buffer_allocs);
-    memcpy((void*)key_buffer_tmp, (void*)key_buffer, 4096 * (buffer_allocs - 1));
-    kfree((void*)key_buffer);
-    key_buffer = key_buffer_tmp;
-  }
+  else
+    {
+      buffer_allocs++;
+      char *key_buffer_tmp = kmalloc (4096 * buffer_allocs);
+      memcpy ((void *)key_buffer_tmp, (void *)key_buffer,
+              4096 * (buffer_allocs - 1));
+      kfree ((void *)key_buffer);
+      key_buffer = key_buffer_tmp;
+    }
 
   asm volatile ("sti");
 }
@@ -91,13 +93,13 @@ atkbd_clear_buffer ()
   buffer_end = 0;
   buffer_allocs = 1;
 
-  kfree(key_buffer);
-  key_buffer = kmalloc(4096 * buffer_allocs);
+  kfree (key_buffer);
+  key_buffer = kmalloc (4096 * buffer_allocs);
 
   for (int i = 0; i < ((4096 * buffer_allocs) - 1); i++)
-  {
-    key_buffer[i] = 0;
-  }
+    {
+      key_buffer[i] = 0;
+    }
   asm volatile ("sti");
 }
 
@@ -336,7 +338,7 @@ atkbd_irq ()
 void
 atkbd_init ()
 {
-  key_buffer = kmalloc(4096);
+  key_buffer = kmalloc (4096);
   atkbd_clear_buffer ();
   /* This seems to fix Qemu's keyboard not working sometimes */
   atkbd_enable ();
@@ -354,10 +356,10 @@ atkbd_get_char ()
 {
   while (buffer_start == buffer_end)
     ;
-  asm volatile ("cli");
+  //asm volatile ("cli");
   char ch = key_buffer[buffer_start];
   buffer_start = (buffer_start + 1) % 4096;
-  asm volatile ("sti");
+  //asm volatile ("sti");
   return ch;
 }
 
