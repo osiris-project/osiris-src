@@ -30,7 +30,7 @@ unsigned char higher_kbdus[128]
         'J', 'K', 'L',  ':',  '"',  '~', 0,   '|', 'Z', 'X', 'C', 'V',
         'B', 'N', 'M',  '<',  '>',  '?', 0,   '*', 0,   ' ', 0 };
 
-const char *keynames[128]
+char *keynames[128]
     = { "ERROR", "ESC",  "1",      "2",  "3",     "4",     "5",         "6",
         "7",     "8",    "9",      "0",  "-",     "=",     "BACKSPACE", "TAB",
         "Q",     "W",    "E",      "R",  "T",     "Y",     "U",         "I",
