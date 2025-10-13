@@ -49,7 +49,7 @@ vmm_get_next_level (uint64_t *current_level_virt, size_t index, bool allocate,
   if (next_level_phys == NULL)
     {
       printk (
-          "VMM: Failed to allocate page for new page table level (index %u)\n",
+          "VMM: Failed to allocate page for new page table level (index %d)\n",
           (unsigned)index);
       return NULL;
     }
@@ -100,7 +100,7 @@ vmm_map_page (pagemap_t *pagemap, uintptr_t virt_addr, uintptr_t phys_addr,
   return true;
 
 fail:
-  printk ("VMM Error: Failed to map page for virt %p\n", (void *)virt_addr);
+  printk ("vmm: vmm_map_page: failed to map page for virt %llx\n", (void *)virt_addr);
   return false;
 }
 
@@ -109,7 +109,7 @@ vmm_unmap_page (pagemap_t *pagemap, uintptr_t virt_addr)
 {
   if (virt_addr % PAGE_SIZE != 0)
     {
-      printk ("Warning: vmm_unmap_page called with non-aligned virt %p\n",
+      printk ("vmm: vmm_unmap_page: called with non-aligned virt %llx\n",
               (void *)virt_addr);
       return false;
     }
@@ -221,7 +221,7 @@ vmm_switch_to (pagemap_t *pagemap)
 {
   if (!pagemap || !pagemap->top_level)
     {
-      panic ("Attempted to switch to an invalid pagemap\n");
+      panic ("vmm_switch_to: attempted to switch to an invalid pagemap");
       return;
     }
 
@@ -235,21 +235,21 @@ vmm_init (void)
 {
   if (hhdm_request.response == NULL)
     {
-      panic ("HHDM request response missing\n");
+      panic ("hhdm response missing");
     }
   if (kernel_address_request.response == NULL)
     {
-      panic ("Kernel Address request response missing\n");
+      panic ("kernel address response missing");
     }
   if (memmap_request.response == NULL)
     {
-      panic ("Memory Map request response missing\n");
+      panic ("Memory Map request response missing");
     }
 
   void *pml4_phys = allocate_page ();
   if (pml4_phys == NULL)
     {
-      panic ("Failed to allocate kernel PML4 table page\n");
+      panic ("vmm_init: failed to allocate kernel plm4");
     }
   uint64_t *pml4_virt = (uint64_t *)((uintptr_t)pml4_phys + VMM_HIGHER_HALF);
   memset (pml4_virt, 0, PAGE_SIZE);
@@ -296,7 +296,7 @@ vmm_init (void)
 
       if (!vmm_map_page (kernel_pagemap, p_virt, p_phys, flags))
         {
-          panic ("Failed to map kernel page\n");
+          panic ("vmm_init: failed to map kernel page");
         }
     }
 
@@ -318,7 +318,7 @@ vmm_init (void)
           if (!vmm_map_page (kernel_pagemap, p + VMM_HIGHER_HALF, p,
                              PTE_PRESENT | PTE_WRITABLE | PTE_NX))
             {
-              panic ("Failed to map HHDM page");
+              panic ("vmm_init: failed to map hhdm page");
             }
         }
 
@@ -332,7 +332,7 @@ vmm_init (void)
               if (!vmm_map_page (kernel_pagemap, p, p,
                                  PTE_PRESENT | PTE_WRITABLE | PTE_NX))
                 {
-                  panic ("Failed to identity map low page");
+                  panic ("vmm_init: failed to identity map low page");
                 }
             }
         }
