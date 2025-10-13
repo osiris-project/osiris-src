@@ -138,7 +138,7 @@ limine:
 # your own 8x16 font. So delete the original font if you want to
 # use your own.
 font:
-	objcopy -I binary -O elf64-x86-64 -B i386 lib/*.psf $(BUILD_DIR)/font.o
+	$(OBJCOPY) -I binary -O elf64-x86-64 -B i386 lib/*.psf $(BUILD_DIR)/font.o
 
 clang-format:
 	find sys -name '*.c' -o -name '*.h' | xargs clang-format -i
