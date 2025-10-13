@@ -1,4 +1,3 @@
-
 # Osiris-src
 
 This is the source tree for the Osiris kernel, an operating system aiming to be a modern, GNU-free Unix clone licensed under 0BSD.
@@ -18,4 +17,4 @@ Now we can proceed onto building. Osiris has many targets. If you want to automa
 ```  
 These instructions will most likely be changed in the near future.
 
-[Discord server](https://discord.gg/rcAPjdWu)
+[Discord server](https://discord.gg/DT7SGbU2y3)
