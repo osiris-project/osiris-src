@@ -29,7 +29,7 @@ vmm_is_table_empty (uint64_t *table_virt)
   return true;
 }
 
-static uint64_t *
+uint64_t *
 vmm_get_next_level (uint64_t *current_level_virt, size_t index, bool allocate,
                     uint64_t alloc_entry_flags)
 {
@@ -100,7 +100,8 @@ vmm_map_page (pagemap_t *pagemap, uintptr_t virt_addr, uintptr_t phys_addr,
   return true;
 
 fail:
-  printk ("vmm: vmm_map_page: failed to map page for virt %llx\n", (void *)virt_addr);
+  printk ("vmm: vmm_map_page: failed to map page for virt %llx\n",
+          (void *)virt_addr);
   return false;
 }
 

@@ -56,3 +56,6 @@ bool vmm_map_page (pagemap_t *pagemap, uintptr_t virt_addr, uintptr_t phys_addr,
 bool vmm_unmap_page (pagemap_t *pagemap, uintptr_t virt_addr);
 
 uintptr_t vmm_virt_to_phys (pagemap_t *pagemap, uintptr_t virt_addr);
+
+uint64_t *vmm_get_next_level (uint64_t *current_level_virt, size_t index,
+                              bool allocate, uint64_t alloc_entry_flags);

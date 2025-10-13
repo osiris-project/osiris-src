@@ -46,10 +46,10 @@ devfs_read (char *path, void *buffer, int size)
 int
 devfs_write (char *node, void *buffer, int size)
 {
-  devfs_node_t *dev = devfs_lookup(NULL, node);
+  devfs_node_t *dev = devfs_lookup (NULL, node);
   if (!dev)
     {
-      printk("devfs: devfs_write: %s not found", node);
+      printk ("devfs: devfs_write: %s not found", node);
       return -1;
     }
   if (dev->ops && dev->ops->write)

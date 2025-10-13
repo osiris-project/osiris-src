@@ -22,6 +22,7 @@
 
 #include <osiris/arch/x86_64/page.h>
 #include <osiris/arch/x86_64/request.h>
+#include <osiris/arch/x86_64/vmm/vmm_map.h>
 #include <osiris/dev/atkbd.h>
 #include <osiris/dev/liminefb.h>
 #include <osiris/fs/devfs/devfs_dev.h>
@@ -63,7 +64,7 @@ read_readme ()
 void
 kernel_init ()
 {
-  atkbd_init();
+  atkbd_init ();
   module_init ();
   devfs_init ();
   read_readme ();

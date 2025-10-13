@@ -197,9 +197,10 @@ vfs_find_node (char *path)
 int
 vfs_write (char *path, void *buffer, int size)
 {
-  if (!path) {
-        printk("vfs: vfs_write: path not found\n");
-        return -1;
+  if (!path)
+    {
+      printk ("vfs: vfs_write: path not found\n");
+      return -1;
     }
   mountpoint_t *mp = mountpoints_root;
 

@@ -356,10 +356,10 @@ atkbd_get_char ()
 {
   while (buffer_start == buffer_end)
     ;
-  //asm volatile ("cli");
+  // asm volatile ("cli");
   char ch = key_buffer[buffer_start];
   buffer_start = (buffer_start + 1) % 4096;
-  //asm volatile ("sti");
+  // asm volatile ("sti");
   return ch;
 }
 
