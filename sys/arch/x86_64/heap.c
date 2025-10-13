@@ -61,7 +61,6 @@ heap_init (void)
   free_list_head = (heap_free_block_t *)heap_start;
   free_list_head->size = heap_size;
   free_list_head->next = NULL;
-  printk ("heap: size=%db\n", heap_size);
 }
 
 void *
