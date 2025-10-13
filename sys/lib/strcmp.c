@@ -15,7 +15,7 @@
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#include <osiris/lib/strcmp.h>
+#include <sys/strcmp.h>
 
 int
 kstrcmp (const char *s1, const char *s2)

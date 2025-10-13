@@ -19,7 +19,7 @@
  * Helpers for interacting with ports
  */
 #include <stdint.h>
-#include <osiris/kern/portb.h>
+#include <sys/portb.h>
 
 uint8_t
 inb (uint16_t port)

@@ -5,12 +5,12 @@
  * LICENSE.md for details.
  */
 
-#include <osiris/arch/x86_64/heap.h>
-#include <osiris/arch/x86_64/page.h>
-#include <osiris/arch/x86_64/vmm/vmm_map.h>
-#include <osiris/kern/panic.h>
-#include <osiris/kern/printk.h>
-#include <osiris/lib/string.h>
+#include <x86_64/heap.h>
+#include <x86_64/page.h>
+#include <x86_64/vmm/vmm_map.h>
+#include <sys/panic.h>
+#include <sys/printk.h>
+#include <sys/string.h>
 
 typedef struct heap_free_block
 {

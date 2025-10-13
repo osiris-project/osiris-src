@@ -17,12 +17,12 @@
 
 #include <stddef.h>
 #include <stdint.h>
-#include <osiris/arch/x86_64/heap.h>
-#include <osiris/fs/tar/tar_octal.h>
-#include <osiris/kern/printk.h>
-#include <osiris/kern/vfs_mount.h>
-#include <osiris/lib/strcmp.h>
-#include <osiris/lib/string.h>
+#include <x86_64/heap.h>
+#include <sys/tar/tar_octal.h>
+#include <sys/printk.h>
+#include <sys/vfs_mount.h>
+#include <sys/strcmp.h>
+#include <sys/string.h>
 
 #define TAR_BLOCK_SIZE 512
 

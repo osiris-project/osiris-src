@@ -1,6 +1,6 @@
 #include <stddef.h>
 #include <stdint.h>
-#include <osiris/lib/string.h>
+#include <sys/string.h>
 
 void *
 memcpy (void *restrict dest, const void *restrict src, int n)

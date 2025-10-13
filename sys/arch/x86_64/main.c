@@ -19,16 +19,19 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include <osiris/arch/x86_64/heap.h>
-#include <osiris/arch/x86_64/page.h>
-#include <osiris/arch/x86_64/request.h>
-#include <osiris/arch/x86_64/vmm/vmm_map.h>
-#include <osiris/dev/atkbd.h>
-#include <osiris/dev/liminefb.h>
-#include <osiris/kern/panic.h>
-#include <osiris/kern/portb.h>
-#include <osiris/kern/printk.h>
-#include <osiris/lib/string.h>
+#include <x86_64/heap.h>
+#include <x86_64/page.h>
+#include <x86_64/request.h>
+#include <x86_64/vmm/vmm_map.h>
+#include <atkbd.h>
+#include <liminefb.h>
+#include <sys/panic.h>
+#include <sys/portb.h>
+#include <sys/printk.h>
+#include <sys/string.h>
+#include <sys/tar/tar_parse.h>
+#include <sys/devfs/devfs_dev.h>
+#include <sys/module.h>
 
 extern void gdt_init ();
 extern void idt_init ();
@@ -53,8 +56,10 @@ x64_main ()
 
   heap_init ();
 
-  /* Disable keyboard for now and turn on interrupts so PIT can start ticking */
-  atkbd_disable ();
+  atkbd_init();
+  module_init();
+  devfs_init();
+
   asm volatile ("sti");
 
   /* Transfer control to the main init() function*/

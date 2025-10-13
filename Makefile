@@ -47,14 +47,13 @@ LD	= ld
 AS	= nasm
 OBJCOPY	= objcopy
 
-
 # Compiler flags.
 CFLAGS	= -Wall -Wextra -ffreestanding -O0 -std=gnu11 -fno-stack-protector \
 		 -fno-stack-check -fno-lto -fno-PIC -ffunction-sections \
 		 -fdata-sections -m64 -march=x86-64 -mabi=sysv -mno-80387 -mno-mmx \
 		 -mno-sse -mno-sse2 -mno-red-zone -mcmodel=kernel -fno-omit-frame-pointer \
 		 -g
-CPPFLAGS	= -I sys/include -I limine -DLIMINE_API_REVISION=3 -MMD -MP
+CPPFLAGS	= -I include/ -I limine -DLIMINE_API_REVISION=3 -MMD -MP
 LDFLAGS  = -nostdlib -static -m elf_x86_64  -z max-page-size=0x1000 \
 		  --gc-sections -T sys/arch/x86_64/conf/kern.ld  
 ASMFLAGS	= -f elf64
@@ -68,6 +67,9 @@ C_SRCS = $(call rwildcard,sys/,*.c)
 ASM_SRCS = $(call rwildcard,sys/,*.asm)
 C_OBJS = $(patsubst %.c,$(BUILD_DIR)/%.o,$(C_SRCS))
 ASM_OBJS = $(patsubst %.asm,$(BUILD_DIR)/%.o,$(ASM_SRCS))
+
+DEV_SUBDIRS := $(wildcard sys/dev/*)
+CPPFLAGS += $(patsubst %,-I%,$(DEV_SUBDIRS))
 
 OBJS = $(C_OBJS) $(ASM_OBJS)
 
@@ -93,7 +95,7 @@ all: $(IMG)
 kernel: $(KERNEL_ELF)
 
 $(KERNEL_ELF): $(OBJS) sys/arch/x86_64/conf/kern.ld 
-	mkdir -p $(dir $@)
+	@mkdir -p $(dir $@)
 	$(LD) $(LDFLAGS) $(OBJS) build/font.o -o $@
 
 $(BUILD_DIR)/%.o: %.c

@@ -19,16 +19,16 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include <osiris/arch/x86_64/heap.h>
-#include <osiris/arch/x86_64/request.h>
-#include <osiris/fs/devfs/devfs_dev.h>
-#include <osiris/fs/tar/tar_parse.h>
-#include <osiris/kern/module.h>
-#include <osiris/kern/panic.h>
-#include <osiris/kern/printk.h>
-#include <osiris/kern/vfs_mount.h>
-#include <osiris/lib/strcmp.h>
-#include <osiris/lib/string.h>
+#include <x86_64/heap.h>
+#include <x86_64/request.h>
+#include <sys/devfs/devfs_dev.h>
+#include <sys/tar/tar_parse.h>
+#include <sys/module.h>
+#include <sys/panic.h>
+#include <sys/printk.h>
+#include <sys/vfs_mount.h>
+#include <sys/strcmp.h>
+#include <sys/string.h>
 
 #define VFS_TYPE_LENGTH 32
 #define VFS_PATH_LENGTH 64

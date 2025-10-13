@@ -17,8 +17,8 @@
 
 #include <stdarg.h>
 #include <stddef.h>
-#include <osiris/dev/liminefb.h>
-#include <osiris/kern/printk.h>
+#include <liminefb.h>
+#include <sys/printk.h>
 
 int
 vsnprintf (char *buffer, int size, const char *fmt, va_list args)

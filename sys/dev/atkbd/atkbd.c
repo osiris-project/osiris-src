@@ -18,15 +18,15 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-#include <osiris/arch/x86_64/heap.h>
-#include <osiris/dev/atkbd.h>
-#include <osiris/dev/atkbd_keymap.h>
-#include <osiris/dev/liminefb.h>
-#include <osiris/kern/portb.h>
-#include <osiris/kern/printk.h>
-#include <osiris/kern/vfs_mount.h>
-#include <osiris/lib/strcmp.h>
-#include <osiris/lib/string.h>
+#include <x86_64/heap.h>
+#include <atkbd.h>
+#include <atkbd_keymap.h>
+#include <liminefb.h>
+#include <sys/portb.h>
+#include <sys/printk.h>
+#include <sys/vfs_mount.h>
+#include <sys/strcmp.h>
+#include <sys/string.h>
 
 char *key_buffer;
 int buffer_allocs = 1;

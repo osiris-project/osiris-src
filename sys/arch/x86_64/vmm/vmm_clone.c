@@ -18,11 +18,11 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include <osiris/arch/x86_64/page.h>
-#include <osiris/arch/x86_64/vmm/vmm_map.h>
-#include <osiris/kern/panic.h>
-#include <osiris/kern/printk.h>
-#include <osiris/lib/string.h>
+#include <x86_64/page.h>
+#include <x86_64/vmm/vmm_map.h>
+#include <sys/panic.h>
+#include <sys/printk.h>
+#include <sys/string.h>
 
 /* These are the big, bad two functions for cloning page tables. They will get
  * used in fork(). They also only work for userspace mappings.

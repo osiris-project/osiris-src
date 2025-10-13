@@ -16,24 +16,8 @@
  */
 
 #include <limine.h>
-#include <stdbool.h>
-#include <stddef.h>
-#include <stdint.h>
-
-#include <osiris/arch/x86_64/page.h>
-#include <osiris/arch/x86_64/request.h>
-#include <osiris/arch/x86_64/vmm/vmm_map.h>
-#include <osiris/dev/atkbd.h>
-#include <osiris/dev/liminefb.h>
-#include <osiris/fs/devfs/devfs_dev.h>
-#include <osiris/fs/tar/tar_parse.h>
-#include <osiris/kern/module.h>
-#include <osiris/kern/panic.h>
-#include <osiris/kern/portb.h>
-#include <osiris/kern/printk.h>
-#include <osiris/kern/vfs_mount.h>
-#include <osiris/lib/strcmp.h>
-#include <osiris/lib/string.h>
+#include <sys/printk.h>
+#include <sys/tar/tar_parse.h>
 
 void
 read_readme ()
@@ -64,9 +48,6 @@ read_readme ()
 void
 kernel_init ()
 {
-  atkbd_init ();
-  module_init ();
-  devfs_init ();
   read_readme ();
   for (;;)
     asm volatile ("hlt");

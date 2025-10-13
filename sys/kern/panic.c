@@ -21,8 +21,8 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include <osiris/dev/atkbd.h>
-#include <osiris/kern/printk.h>
+#include <atkbd.h>
+#include <sys/printk.h>
 
 struct ksym
 {
@@ -31,8 +31,9 @@ struct ksym
 };
 
 struct ksym ksyms[] = {
-#include "osiris/kern/ksyms.h"
+#include "sys/ksyms.h"
 };
+
 size_t ksyms_count = sizeof (ksyms) / sizeof (ksyms[0]);
 
 const struct ksym *

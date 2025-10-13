@@ -7,12 +7,12 @@
 
 #include <stddef.h>
 #include <stdint.h>
-#include <osiris/arch/x86_64/page.h>
-#include <osiris/arch/x86_64/request.h>
-#include <osiris/arch/x86_64/vmm/vmm_map.h>
-#include <osiris/kern/panic.h>
-#include <osiris/kern/printk.h>
-#include <osiris/lib/string.h>
+#include <x86_64/page.h>
+#include <x86_64/request.h>
+#include <x86_64/vmm/vmm_map.h>
+#include <sys/panic.h>
+#include <sys/printk.h>
+#include <sys/string.h>
 
 pagemap_t *kernel_pagemap = NULL;
 

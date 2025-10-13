@@ -14,7 +14,7 @@
  * OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
-#include <osiris/dev/atkbd.h>
+#include <atkbd.h>
 
 unsigned char lower_kbdus[128]
     = { 0,   27,  '1',  '2',  '3',  '4', '5', '6',  '7', '8', '9', '0',

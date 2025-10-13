@@ -15,7 +15,7 @@
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 #include <stdint.h>
-#include <osiris/fs/tar/tar_octal.h>
+#include <sys/tar/tar_octal.h>
 
 uint64_t
 oct2bin (char *str, int size)

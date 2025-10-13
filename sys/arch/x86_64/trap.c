@@ -20,9 +20,9 @@
  */
 
 #include <stdint.h>
-#include <osiris/dev/liminefb.h>
-#include <osiris/kern/portb.h>
-#include <osiris/kern/printk.h>
+#include <liminefb.h>
+#include <sys/portb.h>
+#include <sys/printk.h>
 
 void
 infinite_loop ()

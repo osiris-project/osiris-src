@@ -18,12 +18,12 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include <osiris/arch/x86_64/request.h>
-#include <osiris/fs/tar/tar_parse.h>
-#include <osiris/kern/module.h>
-#include <osiris/kern/panic.h>
-#include <osiris/kern/printk.h>
-#include <osiris/kern/vfs_mount.h>
+#include <x86_64/request.h>
+#include <sys/tar/tar_parse.h>
+#include <sys/module.h>
+#include <sys/panic.h>
+#include <sys/printk.h>
+#include <sys/vfs_mount.h>
 void
 module_init ()
 {
