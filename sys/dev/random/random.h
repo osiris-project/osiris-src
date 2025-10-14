@@ -15,30 +15,6 @@
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#include <limine.h>
-#include <sys/printk.h>
-#include <sys/tar/tar_parse.h>
-#include <random.h>
+#pragma once
 
-void
-read_readme ()
-{
-  char buf[128];
-  int bytes = vfs_read ("rootfs/README.txt", buf, sizeof (buf) - 1);
-  if (bytes <= 0)
-    return;
-
-  buf[bytes] = 0;
-  printk ("%s\n", buf);
-}
-
-void
-kernel_init ()
-{
-  /* Initialise random subsystem */
-  random_init();
-
-  read_readme ();
-  for (;;)
-    asm volatile ("hlt");
-}
+void random_init();
