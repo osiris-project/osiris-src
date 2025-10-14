@@ -23,26 +23,12 @@ void
 read_readme ()
 {
   char buf[128];
-  int bytes = 0;
-  void *fd_handle = tarfs_open ("rootfs/README.txt", 0);
-  if (fd_handle == NULL)
-    {
-      return;
-    }
+  int bytes = vfs_read ("rootfs/README.txt", buf, sizeof (buf) - 1);
+  if (bytes <= 0)
+    return;
 
-  bytes = tarfs_read ((char *)fd_handle, buf, sizeof (buf) - 1);
-
-  tarfs_close (fd_handle);
-
-  if (bytes > 0)
-    {
-      buf[bytes] = 0;
-      printk ("%s\n", buf);
-    }
-  else
-    {
-      return;
-    }
+  buf[bytes] = 0;
+  printk ("%s\n", buf);
 }
 
 void

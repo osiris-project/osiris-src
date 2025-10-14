@@ -18,17 +18,16 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
-
-#include <x86_64/heap.h>
-#include <x86_64/request.h>
 #include <sys/devfs/devfs_dev.h>
-#include <sys/tar/tar_parse.h>
 #include <sys/module.h>
 #include <sys/panic.h>
 #include <sys/printk.h>
-#include <sys/vfs_mount.h>
 #include <sys/strcmp.h>
 #include <sys/string.h>
+#include <sys/tar/tar_parse.h>
+#include <sys/vfs_mount.h>
+#include <x86_64/heap.h>
+#include <x86_64/request.h>
 
 #define VFS_TYPE_LENGTH 32
 #define VFS_PATH_LENGTH 64
@@ -253,14 +252,48 @@ vfs_read (char *path, void *buffer, int size)
           if (*relpath == '/')
             relpath++;
 
-          if (mp->operations.read)
-            return mp->operations.read (relpath, buffer, size);
+          if (mp->operations.open && mp->operations.read
+              && mp->operations.close)
+            {
+              void *handle = mp->operations.open (relpath);
+              if (!handle)
+                {
+                  printk ("vfs: vfs_read: open failed for %s\n", relpath);
+                  return -1;
+                }
 
+              int bytes = mp->operations.read (handle, buffer, size);
+              mp->operations.close (handle);
+              return bytes;
+            }
+
+          printk ("vfs: vfs_read: read op missing on filesystem %s\n",
+                  mp->type);
           return -1;
         }
 
       mp = mp->next;
     }
 
+  mp = mountpoints_root;
+
+  /* As a last resort, we're going to try searching through every filesystem and
+   * see if we can find the file at least somewhere. */
+  while (mp)
+    {
+      if (mp->operations.open && mp->operations.read && mp->operations.close)
+        {
+          void *handle = mp->operations.open (path);
+          if (handle)
+            {
+              int bytes = mp->operations.read (handle, buffer, size);
+              mp->operations.close (handle);
+              return bytes;
+            }
+        }
+      mp = mp->next;
+    }
+
+  printk ("vfs: vfs_read: %s never existed\n", path);
   return -1;
 }
