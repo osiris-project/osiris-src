@@ -24,6 +24,7 @@
 #include <sys/panic.h>
 #include <sys/printk.h>
 #include <sys/vfs_mount.h>
+
 void
 module_init ()
 {
