@@ -57,11 +57,9 @@ x64_main ()
   heap_init ();
 
   atkbd_init();
-  module_init();
-  devfs_init();
 
   asm volatile ("sti");
 
-  /* Transfer control to the main init() function*/
+  /* Transfer control to the main startup function*/
   mi_startup ();
 }

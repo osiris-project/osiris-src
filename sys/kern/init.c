@@ -18,7 +18,9 @@
 #include <limine.h>
 #include <sys/printk.h>
 #include <sys/tar/tar_parse.h>
+#include <sys/devfs/devfs_dev.h>
 #include <random.h>
+#include <sys/module.h>
 
 void
 read_readme ()
@@ -37,6 +39,12 @@ mi_startup ()
 {
   /* Initialise random subsystem */
   random_init();
+
+  /* Initialise modules and mount ramdisk */
+  module_init();
+
+  /* Initialise devfs*/
+  devfs_init();
 
   read_readme ();
   for (;;)
