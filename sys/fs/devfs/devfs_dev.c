@@ -106,7 +106,9 @@ devfs_init ()
   extern char key_buffer[];
   extern fs_operations_t kbd_ops;
   extern fs_operations_t liminefb_ops;
+  extern fs_operations_t random_ops;
   vfs_mount ("devfs", "/dev", "devfs");
   devfs_register ("kbd", &kbd_ops, key_buffer);
   devfs_register ("fb", &liminefb_ops, NULL);
+  devfs_register ("random", &random_ops, NULL);
 }
