@@ -267,6 +267,14 @@ vfs_read (char *path, void *buffer, int size)
               return bytes;
             }
 
+          /* Some filesystems don't have open or close, this means we're going
+           * to have to resort to only using read() */
+          if (mp->operations.read)
+            {
+              int bytes = mp->operations.read (relpath, buffer, size);
+              return bytes;
+            }
+
           printk ("vfs: vfs_read: read op missing on filesystem %s\n",
                   mp->type);
           return -1;
@@ -291,6 +299,13 @@ vfs_read (char *path, void *buffer, int size)
               return bytes;
             }
         }
+      /* See comment on line 270 */
+      if (mp->operations.read)
+        {
+          int bytes = mp->operations.read (path, buffer, size);
+          return bytes;
+        }
+
       mp = mp->next;
     }
 
