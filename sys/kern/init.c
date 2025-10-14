@@ -33,7 +33,7 @@ read_readme ()
 }
 
 void
-kernel_init ()
+mi_startup ()
 {
   /* Initialise random subsystem */
   random_init();

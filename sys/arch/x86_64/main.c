@@ -37,7 +37,7 @@ extern void gdt_init ();
 extern void idt_init ();
 extern void tss_init ();
 
-extern void kernel_init ();
+extern void mi_startup ();
 
 void
 x64_main ()
@@ -63,5 +63,5 @@ x64_main ()
   asm volatile ("sti");
 
   /* Transfer control to the main init() function*/
-  kernel_init ();
+  mi_startup ();
 }
