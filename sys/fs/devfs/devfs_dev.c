@@ -15,15 +15,10 @@
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
-
 #include <x86_64/heap.h>
-#include <x86_64/request.h>
 #include <sys/devfs/devfs_dev.h>
-#include <sys/tar/tar_parse.h>
-#include <sys/module.h>
 #include <sys/panic.h>
 #include <sys/printk.h>
 #include <sys/vfs_mount.h>
