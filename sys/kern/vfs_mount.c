@@ -299,7 +299,7 @@ vfs_read (char *path, void *buffer, int size)
               return bytes;
             }
         }
-      /* See comment on line 270 */
+        
       if (mp->operations.read)
         {
           int bytes = mp->operations.read (path, buffer, size);
