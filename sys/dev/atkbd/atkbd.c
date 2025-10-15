@@ -151,14 +151,14 @@ atkbd_query_set ()
    * hardware. We'll eventually get a way to not have to assume things like this
    */
   atkbd_send_command (GET_SET);
-  if (inb (0x60) != 0xFA)
+  if (inb (0x60) != ACK)
     goto no_reply;
 
   if (!atkbd_wait_for_response (ACK))
     goto no_reply;
 
   atkbd_send_command (READ_SET);
-  if (inb (0x60) != 0xFA)
+  if (inb (0x60) != ACK)
     goto no_reply;
 
   uint8_t set = inb (0x60);
