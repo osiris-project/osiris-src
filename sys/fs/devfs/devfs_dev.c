@@ -17,13 +17,13 @@
 
 #include <stddef.h>
 #include <stdint.h>
-#include <x86_64/heap.h>
 #include <sys/devfs/devfs_dev.h>
 #include <sys/panic.h>
 #include <sys/printk.h>
-#include <sys/vfs_mount.h>
 #include <sys/strcmp.h>
 #include <sys/string.h>
+#include <sys/vfs_mount.h>
+#include <x86_64/heap.h>
 
 devfs_node_t *devfs_root = NULL;
 
@@ -104,6 +104,25 @@ devfs_init ()
   extern fs_operations_t random_ops;
   vfs_mount ("devfs", "/dev", "devfs");
   devfs_register ("kbd", &kbd_ops, key_buffer);
-  devfs_register ("fb", &liminefb_ops, NULL);
+
+  /* dev/console is not a tty and should not be used like it is one. Instead, it
+   * is what Osiris (and other unix likes!) consider the primary mean to
+   * interact with the system administrator. The Linux kernel's documentation on
+   * devices (https://www.kernel.org/doc/html/latest/admin-guide/devices.html)
+   * says:
+   *
+   *
+   * The console device, /dev/console, is the device to which system messages
+   * should be sent, and on which logins should be permitted in single-user
+   * mode. Starting with Linux 2.1.71, /dev/console is managed by the kernel;
+   * for previous versions it should be a symbolic link to either /dev/tty0, a
+   * specific virtual console such as /dev/tty1, or to a serial port primary
+   * (tty*, not cu*) device, depending on the configuration of the system.
+   *
+   * Since a real TTY interface with multiple TTYs is TODO, /dev/console is the
+   * primary way to communicate with the user. Only write() can be performed
+   * upon /dev/console though.
+   */
+  devfs_register ("console", &liminefb_ops, NULL);
   devfs_register ("random", &random_ops, NULL);
 }
