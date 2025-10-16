@@ -174,7 +174,7 @@ create_proc (void (*entry_point) ())
   new_proc->rsp -= 8;
   *(uint64_t *)new_proc->rsp = 0x0; /* r8 */
   new_proc->rsp -= 8;
-  *(uint64_t *)new_proc->rsp = 0x0; /* rbi */
+  *(uint64_t *)new_proc->rsp = 0x0; /* rbp */
   new_proc->rsp -= 8;
   *(uint64_t *)new_proc->rsp = 0x0; /* rdi */
   new_proc->rsp -= 8;
