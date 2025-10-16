@@ -68,7 +68,8 @@ typedef enum
 {
   PROC_READY,
   PROC_RUNNING,
-  PROC_IDLE
+  PROC_IDLE,
+  PROC_DEAD
 } proc_state;
 
 typedef struct Proc
@@ -138,7 +139,7 @@ schedule ()
 
 /* Create a new process */
 void
-create_proc (void (*entry_point) ())
+proc_create (void (*entry_point) ())
 {
   /* TODO: actually handle this */
   if (proc_count >= MAX_PROC)
@@ -191,9 +192,46 @@ create_proc (void (*entry_point) ())
   proc_count++;
 }
 
+void
+proc_destroy (proc_t *proc)
+{
+    if (!proc)
+    {
+        printk("proc: trying to free unexisting proc\n");
+        return;
+    }
+
+    if (proc->state == PROC_IDLE)
+    {
+        printk("proc: attemped to proc_destroy idle process\n");
+        return;
+    }
+
+    /* Free stack if there is one */
+    if (proc->stack)
+    {
+        kfree(proc->stack);
+        proc->stack = NULL;
+    }
+
+    proc->state = PROC_DEAD;
+
+    int proc_index = proc - proc_table;
+    for (int i=proc_index; i < proc_count - 1; i++)
+        proc_table[i] =  proc_table[i + 1];
+    proc_count--;
+
+    /*
+    * If process is currently running,
+    * switch to the idle task.
+    */
+    if (current_proc == proc)
+        current_proc = &proc_table[0];
+}
+
 /* Initialise the scheduler */
 void
-sched_init ()
+proc_init ()
 {
   /* Clear the table */
   memset (proc_table, 0, sizeof (proc_table));
