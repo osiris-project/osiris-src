@@ -19,8 +19,8 @@
  * Trap handling for x86_64
  */
 
-#include <stdint.h>
 #include <liminefb.h>
+#include <stdint.h>
 #include <sys/portb.h>
 #include <sys/printk.h>
 
@@ -217,12 +217,16 @@ extern void load_idt ();
 
 int ticks;
 
+extern void schedule ();
+
 void
 apit_irq ()
 {
   extern int cursor_y, fb_height;
   ticks++;
+  asm volatile ("sti");
   outb (0x20, 0x20);
+  schedule ();
   if (cursor_y > fb_height)
     {
       cursor_y = fb_height - 16;

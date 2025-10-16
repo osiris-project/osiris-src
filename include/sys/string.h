@@ -17,6 +17,8 @@
 
 #pragma once
 
+#include <stddef.h>
+
 void *memcpy (void *restrict dest, const void *restrict src, int n);
 void *memset (void *s, int c, int n);
 void *memmove (void *dest, const void *src, int n);
