@@ -19,23 +19,24 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include <x86_64/heap.h>
-#include <x86_64/page.h>
-#include <x86_64/request.h>
-#include <x86_64/vmm/vmm_map.h>
 #include <atkbd.h>
 #include <liminefb.h>
+#include <sys/devfs/devfs_dev.h>
+#include <sys/module.h>
 #include <sys/panic.h>
 #include <sys/portb.h>
 #include <sys/printk.h>
 #include <sys/string.h>
 #include <sys/tar/tar_parse.h>
-#include <sys/devfs/devfs_dev.h>
-#include <sys/module.h>
+#include <x86_64/heap.h>
+#include <x86_64/page.h>
+#include <x86_64/request.h>
+#include <x86_64/vmm/vmm_map.h>
 
 extern void gdt_init ();
 extern void idt_init ();
 extern void tss_init ();
+extern void sched_init ();
 
 extern void mi_startup ();
 
@@ -45,6 +46,7 @@ x64_main ()
   gdt_init ();
   tss_init ();
   idt_init ();
+  asm volatile ("cli");
 
   liminefb_init ();
   printk ("Osiris/x86_64 [text=0x%llx rodata=0x%llx data=0x%llx]\n", _text_end,
@@ -56,10 +58,12 @@ x64_main ()
 
   heap_init ();
 
-  atkbd_init();
+  sched_init ();
 
-  asm volatile ("sti");
+  atkbd_init ();
+
+  asm volatile("sti");
 
   /* Transfer control to the main startup function*/
-  mi_startup ();
+  return mi_startup ();
 }
