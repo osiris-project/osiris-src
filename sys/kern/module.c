@@ -28,19 +28,14 @@
 void
 module_init ()
 {
-  if (module_request.response && module_request.response->module_count > 0)
-    {
-      printk ("module: detected %d modules\n",
-              module_request.response->module_count);
-    }
-  else
+  if (module_request.response && module_request.response->module_count == 0)
     {
       panic ("module: No modules or initialisation ramdisk detected");
     }
   void *tar_addr = module_request.response->modules[0]->address;
   uint64_t tar_size = module_request.response->modules[0]->size;
-  printk ("module: found initrd at %llx (%dB)\n", tar_addr, tar_size);
+  printk ("vfs: mounting initrd as root at 0x%llx\n", tar_addr, tar_size);
 
   tarfs_init (tar_addr);
-  vfs_mount ("initrd0", "/", "ustar");
+  vfs_mount ("initrd", "/", "ustar");
 }

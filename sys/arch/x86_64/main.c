@@ -46,10 +46,9 @@ x64_main ()
 {
   gdt_init ();
   tss_init ();
+  liminefb_init ();
   trap_init ();
   asm volatile ("cli");
-
-  liminefb_init ();
 
   pmm_init ();
 

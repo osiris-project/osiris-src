@@ -148,6 +148,13 @@ fill_idt_entry (int num, uint64_t base, uint16_t sel, uint8_t flags)
   idt[num].zero = 0;
 }
 
+void
+add_irq (char *name, int num, uint64_t base, uint16_t sel, uint8_t flags)
+{
+  fill_idt_entry(num, base, sel, flags);
+  printk("trap: %s irq #%d with flags 0x%d\n", name, num, flags);
+}
+
 extern void do_isr0 ();
 extern void do_isr1 ();
 extern void do_isr2 ();
@@ -205,8 +212,8 @@ trap_init ()
   fill_idt_entry (17, (uint64_t)do_isr17, 0x08, 0x8E);
   fill_idt_entry (18, (uint64_t)do_isr18, 0x08, 0x8E);
 
-  fill_idt_entry (32, (uint64_t)do_irq0, 0x08, 0x8E);
-  fill_idt_entry (33, (uint64_t)do_irq1, 0x08, 0x8E);
+  add_irq ("apit", 32, (uint64_t)do_irq0, 0x08, 0x8E);
+  add_irq ("kbd", 33, (uint64_t)do_irq1, 0x08, 0x8E);
 
   idtptr.limit = (sizeof (struct idt_entry) * 256) - 1;
   idtptr.base = (uint64_t)&idt;
