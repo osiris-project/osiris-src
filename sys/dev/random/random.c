@@ -58,7 +58,6 @@ random_init ()
   rand_seed ^= rand_seed >> 21;
   if (rand_seed == 0)
     rand_seed = 0x9E3779B95A4A7C15ULL;
-  printk("random: random seed is %llx\n", rand_seed);
 }
 
 fs_operations_t random_ops = {

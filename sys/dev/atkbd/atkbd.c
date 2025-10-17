@@ -165,7 +165,6 @@ atkbd_query_set ()
 
   return set;
 no_reply:
-  printk ("atkbd: atkbd_query_set: no reply\n");
   set = 0x01;
   return set;
 }
@@ -342,8 +341,6 @@ atkbd_init ()
   atkbd_clear_buffer ();
   /* This seems to fix Qemu's keyboard not working sometimes */
   atkbd_enable ();
-  int set = atkbd_query_set ();
-  printk ("atkbd: scancode set=%d\n", set);
 
   /* Make sure there's nothing wrong with the LEDS */
   current_led_mask = 0x00;

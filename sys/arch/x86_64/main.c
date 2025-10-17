@@ -25,6 +25,7 @@
 #include <sys/module.h>
 #include <sys/panic.h>
 #include <sys/portb.h>
+#include <sys/vfs_mount.h>
 #include <sys/printk.h>
 #include <sys/string.h>
 #include <sys/tar/tar_parse.h>
@@ -49,8 +50,6 @@ x64_main ()
   asm volatile ("cli");
 
   liminefb_init ();
-  printk ("Osiris/x86_64 [text=0x%llx rodata=0x%llx data=0x%llx]\n", _text_end,
-          _rodata_end, _data_end);
 
   pmm_init ();
 

@@ -44,7 +44,7 @@ devfs_write (char *node, void *buffer, int size)
   devfs_node_t *dev = devfs_lookup (NULL, node);
   if (!dev)
     {
-      printk ("devfs: devfs_write: %s not found", node);
+      printk ("devfs: devfs_write: %s not found\n", node);
       return -1;
     }
   if (dev->ops && dev->ops->write)
@@ -67,8 +67,6 @@ devfs_register (char *name, fs_operations_t *ops, void *data)
   node->data = data;
   node->next = devfs_root;
   devfs_root = node;
-
-  printk ("devfs: registered %s\n", name);
 }
 
 void *

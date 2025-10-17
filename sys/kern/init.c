@@ -21,18 +21,24 @@
 #include <sys/module.h>
 #include <sys/printk.h>
 #include <sys/tar/tar_parse.h>
+#include <sys/vfs_mount.h>
+
+const char *copyright="Osiris 0.00 by V. Prokopenko\nCopyright (c) 2025 V. Prokopenko\nCopyright (c) 2025 The Osiris Contributors\n";
 
 void
 mi_startup ()
 {
-  /* Initialise random subsystem */
-  random_init ();
-
   /* Initialise modules and mount ramdisk */
   module_init ();
 
   /* Initialise devfs*/
   devfs_init ();
+
+  /* Initialise random subsystem */
+  random_init ();
+
+  /* Write copyright to /dev/console */
+  vfs_write("/dev/console", copyright, sizeof (copyright));
 
   for (;;)
     asm volatile ("hlt");
