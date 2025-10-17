@@ -241,7 +241,7 @@ liminefb_write (char *node, void *buffer, int size)
   /* Both are unused for now*/
   (void)node;
   (void)size;
-  liminefb_putstr ((char *)buffer, 0xffffff);
+  liminefb_putstr ((char *)buffer, 0xD3D3D3);
   return 0;
 }
 
