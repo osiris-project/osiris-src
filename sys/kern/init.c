@@ -23,7 +23,7 @@
 #include <sys/tar/tar_parse.h>
 #include <sys/vfs_mount.h>
 
-const char *copyright="Osiris 0.00 by V. Prokopenko\nCopyright (c) 2025 V. Prokopenko\nCopyright (c) 2025 The Osiris Contributors\n";
+const char *copyright="Copyright (c) 2025 V. Prokopenko\nCopyright (c) 2025 The Osiris Contributors\n";
 
 void
 mi_startup ()
@@ -37,7 +37,8 @@ mi_startup ()
   /* Initialise random subsystem */
   random_init ();
 
-  /* Write copyright to /dev/console */
+  /* Write copyright and banner to /dev/console */
+  printk("Osiris 0.00 by V. Prokopenko %s %s\n", __DATE__, __TIME__);
   vfs_write("/dev/console", copyright, sizeof (copyright));
 
   for (;;)
