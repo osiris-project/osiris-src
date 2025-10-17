@@ -1,15 +1,7 @@
 ;
-; This file contains original code from the Arikoto project.
-; Original portions are licensed under the NCSA/University of Illinois Open Source License.
+; SPDX-License-Identifier: 0BSD
 ;
-; Original Copyright (c) 2025 Arikoto
-; Full NCSA License Text: See /NCSA.md
-;
-
-;
-; SPDX-License-Identifier: 0BSD AND NCSA
-;
-; Copyright (c) 2025 V. Prokopenko - Modifications
+; Copyright (c) 2025 V. Prokopenko
 ;
 ; Permission to use, copy, modify, and/or distribute this software for any
 ; purpose with or without fee is hereby granted, subject to the retention
@@ -24,56 +16,36 @@
 ; CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 ;
 
-global do_irq0
-global do_irq1
+extern isr_handler_c
+extern irq_handler_c
 
-; isr globals
-global do_isr0
-global do_isr1
-global do_isr2
-global do_isr3
-global do_isr4
-global do_isr5
-global do_isr6
-global do_isr7
-global do_isr8
-global do_isr9
-global do_isr10
-global do_isr11
-global do_isr12
-global do_isr13
-global do_isr14
-global do_isr15
-global do_isr16
-global do_isr17
-global do_isr18
-global do_isr_reserved
+%macro ISR_NOERR 2
+global do_isr%1
+do_isr%1:
+    cli
+    push 0
+    push %2
+    jmp isr_common_stub
+%endmacro
 
-extern atkbd_irq
-extern apit_irq
+%macro ISR_ERR 2
+global do_isr%1
+do_isr%1:
+    cli
+    push %2
+    jmp isr_common_stub
+%endmacro
 
-extern isr0
-extern isr1
-extern isr2
-extern isr3
-extern isr4
-extern isr5
-extern isr6
-extern isr7
-extern isr8
-extern isr9
-extern isr10
-extern isr11
-extern isr12
-extern isr13
-extern isr14
-extern isr15
-extern isr16
-extern isr17
-extern isr18
-extern isr_reserved
+%macro IRQ 2
+global do_irq%1
+do_irq%1:
+    cli
+    push 0
+    push %2
+    jmp irq_common_stub
+%endmacro
 
-do_irq0:
+isr_common_stub:
     push rax
     push rbx
     push rcx
@@ -90,7 +62,8 @@ do_irq0:
     push r14
     push r15
 
-    call apit_irq
+    mov rdi, rsp
+    call isr_handler_c
 
     pop r15
     pop r14
@@ -108,9 +81,10 @@ do_irq0:
     pop rbx
     pop rax
 
+    add rsp, 16
     iretq
 
-do_irq1:
+irq_common_stub:
     push rax
     push rbx
     push rcx
@@ -127,7 +101,8 @@ do_irq1:
     push r14
     push r15
 
-    call atkbd_irq
+    mov rdi, rsp
+    call irq_handler_c
 
     pop r15
     pop r14
@@ -145,688 +120,28 @@ do_irq1:
     pop rbx
     pop rax
 
+    add rsp, 16
     iretq
 
-do_isr0:
-    push rax
-    push rbx
-    push rcx
-    push rdx
-    push rsi
-    push rdi
-    push rbp
-    push r8
-    push r9
-    push r10
-    push r11
-    push r12
-    push r13
-    push r14
-    push r15
+ISR_NOERR 0, 0
+ISR_NOERR 1, 1
+ISR_NOERR 2, 2
+ISR_NOERR 3, 3
+ISR_NOERR 4, 4
+ISR_NOERR 5, 5
+ISR_NOERR 6, 6
+ISR_NOERR 7, 7
+ISR_ERR   8, 8
+ISR_NOERR 9, 9
+ISR_ERR   10, 10
+ISR_ERR   11, 11
+ISR_ERR   12, 12
+ISR_ERR   13, 13 
+ISR_ERR   14, 14
+ISR_NOERR 15, 15
+ISR_NOERR 16, 16
+ISR_ERR   17, 17
+ISR_NOERR 18, 18
 
-    call isr0
-
-    pop r15
-    pop r14
-    pop r13
-    pop r12
-    pop r11
-    pop r10
-    pop r9
-    pop r8
-    pop rbp
-    pop rdi
-    pop rsi
-    pop rdx
-    pop rcx
-    pop rbx
-    pop rax
-    iretq
-
-do_isr1:
-    push rax
-    push rbx
-    push rcx
-    push rdx
-    push rsi
-    push rdi
-    push rbp
-    push r8
-    push r9
-    push r10
-    push r11
-    push r12
-    push r13
-    push r14
-    push r15
-
-    call isr1
-
-    pop r15
-    pop r14
-    pop r13
-    pop r12
-    pop r11
-    pop r10
-    pop r9
-    pop r8
-    pop rbp
-    pop rdi
-    pop rsi
-    pop rdx
-    pop rcx
-    pop rbx
-    pop rax
-    iretq
-
-do_isr2:
-    push rax
-    push rbx
-    push rcx
-    push rdx
-    push rsi
-    push rdi
-    push rbp
-    push r8
-    push r9
-    push r10
-    push r11
-    push r12
-    push r13
-    push r14
-    push r15
-
-    call isr2
-
-    pop r15
-    pop r14
-    pop r13
-    pop r12
-    pop r11
-    pop r10
-    pop r9
-    pop r8
-    pop rbp
-    pop rdi
-    pop rsi
-    pop rdx
-    pop rcx
-    pop rbx
-    pop rax
-    iretq
-
-do_isr3:
-    push rax
-    push rbx
-    push rcx
-    push rdx
-    push rsi
-    push rdi
-    push rbp
-    push r8
-    push r9
-    push r10
-    push r11
-    push r12
-    push r13
-    push r14
-    push r15
-
-    call isr3
-
-    pop r15
-    pop r14
-    pop r13
-    pop r12
-    pop r11
-    pop r10
-    pop r9
-    pop r8
-    pop rbp
-    pop rdi
-    pop rsi
-    pop rdx
-    pop rcx
-    pop rbx
-    pop rax
-    iretq
-
-do_isr4:
-    push rax
-    push rbx
-    push rcx
-    push rdx
-    push rsi
-    push rdi
-    push rbp
-    push r8
-    push r9
-    push r10
-    push r11
-    push r12
-    push r13
-    push r14
-    push r15
-
-    call isr4
-
-    pop r15
-    pop r14
-    pop r13
-    pop r12
-    pop r11
-    pop r10
-    pop r9
-    pop r8
-    pop rbp
-    pop rdi
-    pop rsi
-    pop rdx
-    pop rcx
-    pop rbx
-    pop rax
-    iretq
-
-do_isr5:
-    push rax
-    push rbx
-    push rcx
-    push rdx
-    push rsi
-    push rdi
-    push rbp
-    push r8
-    push r9
-    push r10
-    push r11
-    push r12
-    push r13
-    push r14
-    push r15
-
-    call isr5
-
-    pop r15
-    pop r14
-    pop r13
-    pop r12
-    pop r11
-    pop r10
-    pop r9
-    pop r8
-    pop rbp
-    pop rdi
-    pop rsi
-    pop rdx
-    pop rcx
-    pop rbx
-    pop rax
-    iretq
-
-do_isr6:
-    push rax
-    push rbx
-    push rcx
-    push rdx
-    push rsi
-    push rdi
-    push rbp
-    push r8
-    push r9
-    push r10
-    push r11
-    push r12
-    push r13
-    push r14
-    push r15
-
-    call isr6
-
-    pop r15
-    pop r14
-    pop r13
-    pop r12
-    pop r11
-    pop r10
-    pop r9
-    pop r8
-    pop rbp
-    pop rdi
-    pop rsi
-    pop rdx
-    pop rcx
-    pop rbx
-    pop rax
-    iretq
-
-do_isr7:
-    push rax
-    push rbx
-    push rcx
-    push rdx
-    push rsi
-    push rdi
-    push rbp
-    push r8
-    push r9
-    push r10
-    push r11
-    push r12
-    push r13
-    push r14
-    push r15
-
-    call isr7
-
-    pop r15
-    pop r14
-    pop r13
-    pop r12
-    pop r11
-    pop r10
-    pop r9
-    pop r8
-    pop rbp
-    pop rdi
-    pop rsi
-    pop rdx
-    pop rcx
-    pop rbx
-    pop rax
-    iretq
-
-do_isr8:
-    push rax
-    push rbx
-    push rcx
-    push rdx
-    push rsi
-    push rdi
-    push rbp
-    push r8
-    push r9
-    push r10
-    push r11
-    push r12
-    push r13
-    push r14
-    push r15
-
-    call isr8
-
-    pop r15
-    pop r14
-    pop r13
-    pop r12
-    pop r11
-    pop r10
-    pop r9
-    pop r8
-    pop rbp
-    pop rdi
-    pop rsi
-    pop rdx
-    pop rcx
-    pop rbx
-    pop rax
-    iretq
-
-do_isr9:
-    push rax
-    push rbx
-    push rcx
-    push rdx
-    push rsi
-    push rdi
-    push rbp
-    push r8
-    push r9
-    push r10
-    push r11
-    push r12
-    push r13
-    push r14
-    push r15
-
-    call isr9
-
-    pop r15
-    pop r14
-    pop r13
-    pop r12
-    pop r11
-    pop r10
-    pop r9
-    pop r8
-    pop rbp
-    pop rdi
-    pop rsi
-    pop rdx
-    pop rcx
-    pop rbx
-    pop rax
-    iretq
-
-do_isr10:
-    push rax
-    push rbx
-    push rcx
-    push rdx
-    push rsi
-    push rdi
-    push rbp
-    push r8
-    push r9
-    push r10
-    push r11
-    push r12
-    push r13
-    push r14
-    push r15
-
-    call isr10
-
-    pop r15
-    pop r14
-    pop r13
-    pop r12
-    pop r11
-    pop r10
-    pop r9
-    pop r8
-    pop rbp
-    pop rdi
-    pop rsi
-    pop rdx
-    pop rcx
-    pop rbx
-    pop rax
-    iretq
-
-do_isr11:
-    push rax
-    push rbx
-    push rcx
-    push rdx
-    push rsi
-    push rdi
-    push rbp
-    push r8
-    push r9
-    push r10
-    push r11
-    push r12
-    push r13
-    push r14
-    push r15
-
-    call isr11
-
-    pop r15
-    pop r14
-    pop r13
-    pop r12
-    pop r11
-    pop r10
-    pop r9
-    pop r8
-    pop rbp
-    pop rdi
-    pop rsi
-    pop rdx
-    pop rcx
-    pop rbx
-    pop rax
-    iretq
-
-do_isr12:
-    push rax
-    push rbx
-    push rcx
-    push rdx
-    push rsi
-    push rdi
-    push rbp
-    push r8
-    push r9
-    push r10
-    push r11
-    push r12
-    push r13
-    push r14
-    push r15
-
-    call isr12
-
-    pop r15
-    pop r14
-    pop r13
-    pop r12
-    pop r11
-    pop r10
-    pop r9
-    pop r8
-    pop rbp
-    pop rdi
-    pop rsi
-    pop rdx
-    pop rcx
-    pop rbx
-    pop rax
-    iretq
-
-do_isr13:
-    push rax
-    push rbx
-    push rcx
-    push rdx
-    push rsi
-    push rdi
-    push rbp
-    push r8
-    push r9
-    push r10
-    push r11
-    push r12
-    push r13
-    push r14
-    push r15
-
-    call isr13
-
-    pop r15
-    pop r14
-    pop r13
-    pop r12
-    pop r11
-    pop r10
-    pop r9
-    pop r8
-    pop rbp
-    pop rdi
-    pop rsi
-    pop rdx
-    pop rcx
-    pop rbx
-    pop rax
-    iretq
-
-do_isr14:
-    push rax
-    push rbx
-    push rcx
-    push rdx
-    push rsi
-    push rdi
-    push rbp
-    push r8
-    push r9
-    push r10
-    push r11
-    push r12
-    push r13
-    push r14
-    push r15
-
-    call isr14
-
-    pop r15
-    pop r14
-    pop r13
-    pop r12
-    pop r11
-    pop r10
-    pop r9
-    pop r8
-    pop rbp
-    pop rdi
-    pop rsi
-    pop rdx
-    pop rcx
-    pop rbx
-    pop rax
-    iretq
-
-do_isr15:
-    push rax
-    push rbx
-    push rcx
-    push rdx
-    push rsi
-    push rdi
-    push rbp
-    push r8
-    push r9
-    push r10
-    push r11
-    push r12
-    push r13
-    push r14
-    push r15
-
-    call isr15
-
-    pop r15
-    pop r14
-    pop r13
-    pop r12
-    pop r11
-    pop r10
-    pop r9
-    pop r8
-    pop rbp
-    pop rdi
-    pop rsi
-    pop rdx
-    pop rcx
-    pop rbx
-    pop rax
-    iretq
-
-do_isr16:
-    push rax
-    push rbx
-    push rcx
-    push rdx
-    push rsi
-    push rdi
-    push rbp
-    push r8
-    push r9
-    push r10
-    push r11
-    push r12
-    push r13
-    push r14
-    push r15
-
-    call isr16
-
-    pop r15
-    pop r14
-    pop r13
-    pop r12
-    pop r11
-    pop r10
-    pop r9
-    pop r8
-    pop rbp
-    pop rdi
-    pop rsi
-    pop rdx
-    pop rcx
-    pop rbx
-    pop rax
-    iretq
-
-do_isr17:
-    push rax
-    push rbx
-    push rcx
-    push rdx
-    push rsi
-    push rdi
-    push rbp
-    push r8
-    push r9
-    push r10
-    push r11
-    push r12
-    push r13
-    push r14
-    push r15
-
-    call isr17
-
-    pop r15
-    pop r14
-    pop r13
-    pop r12
-    pop r11
-    pop r10
-    pop r9
-    pop r8
-    pop rbp
-    pop rdi
-    pop rsi
-    pop rdx
-    pop rcx
-    pop rbx
-    pop rax
-    iretq
-
-do_isr18:
-    push rax
-    push rbx
-    push rcx
-    push rdx
-    push rsi
-    push rdi
-    push rbp
-    push r8
-    push r9
-    push r10
-    push r11
-    push r12
-    push r13
-    push r14
-    push r15
-
-    call isr18
-
-    pop r15
-    pop r14
-    pop r13
-    pop r12
-    pop r11
-    pop r10
-    pop r9
-    pop r8
-    pop rbp
-    pop rdi
-    pop rsi
-    pop rdx
-    pop rcx
-    pop rbx
-    pop rax
-    iretq
+IRQ 0, 32
+IRQ 1, 33

@@ -24,12 +24,49 @@
 #include <sys/portb.h>
 #include <sys/printk.h>
 
+#include <liminefb.h>
+#include <stdint.h>
+#include <sys/portb.h>
+#include <sys/printk.h>
+
+typedef struct
+{
+  uint64_t r15, r14, r13, r12, r11, r10, r9, r8;
+  uint64_t rbp, rdi, rsi, rdx, rcx, rbx, rax;
+  uint64_t int_no, err_code;
+  uint64_t rip, cs, rflags, rsp, ss;
+} registers_t;
+
+extern void atkbd_irq ();
+extern void schedule ();
+int ticks = 0;
+
+const char *trap_msgs[] = {
+      "division by zero",
+      "debug",
+      "non maskable interrupt",
+      "breakpoint",
+      "into detected overflow",
+      "out of bounds",
+      "invalid opcode",
+      "no coprocessor",
+      "double fault",
+      "coprocessor segment overrun",
+      "bad tss",
+      "segment not present",
+      "stack fault",
+      "general protection fault",
+      "page fault",
+      "unknown interrupt",
+      "coprocessor fault",
+      "alignment check",
+      "machine check"
+};
+
 void
 infinite_loop ()
 {
-  uint64_t cr0;
-  asm volatile ("mov %%cr0, %0" : "=r"(cr0));
-  printk ("cr0=0x%llx", cr0);
+  printk ("system halted\n");
   for (;;)
     {
       asm volatile ("cli");
@@ -38,126 +75,47 @@ infinite_loop ()
 }
 
 void
-isr0 ()
+isr_handler_c (registers_t *regs)
 {
-  liminefb_putstr ("Division by zero exception\n", 0xffffff);
-  infinite_loop ();
-}
-void
-isr1 ()
-{
-  liminefb_putstr ("Debug exception\n", 0xffffff);
-  infinite_loop ();
-}
-void
-isr2 ()
-{
-  liminefb_putstr ("Non Maskable Interrupt Exception\n", 0xffffff);
-  infinite_loop ();
-}
-void
-isr3 ()
-{
-  liminefb_putstr ("Breakpoint Exception\n", 0xffffff);
-  infinite_loop ();
-}
-void
-isr4 ()
-{
-  liminefb_putstr ("Into Detected Overflow Exception\n", 0xffffff);
-  infinite_loop ();
-}
-void
-isr5 ()
-{
-  liminefb_putstr ("Out of Bounds Exception\n", 0xffffff);
-  infinite_loop ();
-}
-void
-isr6 ()
-{
-  liminefb_putstr ("Invalid Opcode Exception\n", 0xffffff);
-  infinite_loop ();
-}
-void
-isr7 ()
-{
-  liminefb_putstr ("No Coprocessor Exception\n", 0xffffff);
-  infinite_loop ();
-}
-void
-isr8 ()
-{
-  liminefb_putstr ("Double Fault Exception\n", 0xffffff);
-  infinite_loop ();
-}
-void
-isr9 ()
-{
-  liminefb_putstr ("Coprocessor Segment Overrun Exception\n", 0xffffff);
-  infinite_loop ();
-}
-void
-isr10 ()
-{
-  liminefb_putstr ("Bad TSS Exception\n", 0xffffff);
-  infinite_loop ();
-}
-void
-isr11 ()
-{
-  liminefb_putstr ("Segment Not Present Exception\n", 0xffffff);
-  infinite_loop ();
-}
-void
-isr12 ()
-{
-  liminefb_putstr ("Stack Fault Exception\n", 0xffffff);
-  infinite_loop ();
-}
-void
-isr13 ()
-{
-  liminefb_putstr ("General Protection Fault Exception\n", 0xffffff);
-  infinite_loop ();
-}
-void
-isr14 ()
-{
-  liminefb_putstr ("Page Fault Exception\n", 0xffffff);
-  infinite_loop ();
-}
-void
-isr15 ()
-{
-  liminefb_putstr ("Unknown Interrupt Exception\n", 0xffffff);
-  infinite_loop ();
-}
-void
-isr16 ()
-{
-  liminefb_putstr ("Coprocessor Fault Exception\n", 0xffffff);
-  infinite_loop ();
-}
-void
-isr17 ()
-{
-  liminefb_putstr ("Alignment Check Exception\n", 0xffffff);
-  infinite_loop ();
-}
-void
-isr18 ()
-{
-  liminefb_putstr ("Machine Check Exception\n", 0xffffff);
-  infinite_loop ();
-}
-void
-isr_reserved ()
-{
-  liminefb_putstr ("Reserved (19-31) Exception\n", 0xffffff);
+  if (regs->int_no < 19)
+    {
+      printk ("EXCEPTION: %s (err_code: 0x%llx)\n",
+              trap_msgs[regs->int_no], regs->err_code);
+    }
+  else
+    {
+      printk ("Reserved exception %llu\n", regs->int_no);
+    }
   infinite_loop ();
 }
 
+void
+irq_handler_c (registers_t *regs)
+{
+  if (regs->int_no >= 40)
+    {
+      outb (0xA0, 0x20);
+    }
+  outb (0x20, 0x20);
+
+  switch (regs->int_no)
+    {
+    case 32:
+      ticks++;
+      schedule ();
+      break;
+    case 33:
+      atkbd_irq ();
+      break;
+    default:
+      printk ("Unhandled IRQ: %llu\n", regs->int_no);
+      break;
+    }
+}
+
+/*
+ * IDT setup code
+ */
 struct idt_entry
 {
   uint16_t base_low;
@@ -213,28 +171,8 @@ extern void do_isr18 ();
 extern void do_irq0 ();
 extern void do_irq1 ();
 
-extern void load_idt ();
-
-int ticks;
-
-extern void schedule ();
-
 void
-apit_irq ()
-{
-  extern int cursor_y, fb_height;
-  ticks++;
-  asm volatile ("sti");
-  outb (0x20, 0x20);
-  schedule ();
-  if (cursor_y > fb_height)
-    {
-      cursor_y = fb_height - 16;
-    }
-}
-
-void
-idt_init ()
+trap_init ()
 {
   outb (0x20, 0x11);
   outb (0xA0, 0x11);
@@ -244,8 +182,8 @@ idt_init ()
   outb (0xA1, 0x02);
   outb (0x21, 0x01);
   outb (0xA1, 0x01);
-  outb (0x21, 0x0);
-  outb (0xA1, 0x0);
+  outb (0x21, 0x00);
+  outb (0xA1, 0x00);
 
   fill_idt_entry (0, (uint64_t)do_isr0, 0x08, 0x8E);
   fill_idt_entry (1, (uint64_t)do_isr1, 0x08, 0x8E);
@@ -272,6 +210,5 @@ idt_init ()
 
   idtptr.limit = (sizeof (struct idt_entry) * 256) - 1;
   idtptr.base = (uint64_t)&idt;
-
   asm volatile ("lidt %0" : : "m"(idtptr));
 }

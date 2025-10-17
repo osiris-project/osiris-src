@@ -35,7 +35,7 @@
 #include <x86_64/vmm/vmm_map.h>
 
 extern void gdt_init ();
-extern void idt_init ();
+extern void trap_init ();
 extern void tss_init ();
 extern void proc_init ();
 
@@ -46,7 +46,7 @@ x64_main ()
 {
   gdt_init ();
   tss_init ();
-  idt_init ();
+  trap_init ();
   asm volatile ("cli");
 
   liminefb_init ();
