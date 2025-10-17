@@ -36,7 +36,7 @@
 extern void gdt_init ();
 extern void idt_init ();
 extern void tss_init ();
-extern void sched_init ();
+extern void proc_init ();
 
 extern void mi_startup ();
 
@@ -58,7 +58,7 @@ x64_main ()
 
   heap_init ();
 
-  sched_init ();
+  proc_init ();
 
   atkbd_init ();
 
