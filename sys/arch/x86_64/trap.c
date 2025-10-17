@@ -79,12 +79,12 @@ isr_handler_c (registers_t *regs)
 {
   if (regs->int_no < 19)
     {
-      printk ("EXCEPTION: %s (err_code: 0x%llx)\n",
+      printk ("unhandled exception: %s (err code %llx)\n",
               trap_msgs[regs->int_no], regs->err_code);
     }
   else
     {
-      printk ("Reserved exception %llu\n", regs->int_no);
+      printk ("reserved exc: %llx\n", regs->int_no);
     }
   infinite_loop ();
 }
