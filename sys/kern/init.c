@@ -23,18 +23,6 @@
 #include <sys/tar/tar_parse.h>
 
 void
-read_readme ()
-{
-  char buf[128];
-  int bytes = vfs_read ("rootfs/README.txt", buf, sizeof (buf) - 1);
-  if (bytes <= 0)
-    return;
-
-  buf[bytes] = 0;
-  printk ("%s\n", buf);
-}
-
-void
 mi_startup ()
 {
   /* Initialise random subsystem */
@@ -46,7 +34,6 @@ mi_startup ()
   /* Initialise devfs*/
   devfs_init ();
 
-  read_readme ();
   for (;;)
     asm volatile ("hlt");
 }
