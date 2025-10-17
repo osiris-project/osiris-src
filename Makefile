@@ -92,6 +92,9 @@ help:
 all: $(IMG)
 	qemu-system-x86_64 -cdrom build/osiris.iso -enable-kvm
 
+ksyms:
+	touch include/sys/ksyms.h
+
 kernel: $(KERNEL_ELF)
 
 $(KERNEL_ELF): $(OBJS) sys/arch/x86_64/conf/kern.ld 
@@ -106,7 +109,7 @@ $(BUILD_DIR)/%.o: %.asm
 	mkdir -p $(dir $@)
 	$(AS) $(ASMFLAGS) $< -o $@
 
-$(IMG): $(BUILD_DIR) font limine $(KERNEL_ELF)
+$(IMG): ksyms $(BUILD_DIR) font limine $(KERNEL_ELF)
 	@# Do basic checks to prevent any errors.
 	@$(shell command -v xorriso >/dev/null 2>&1 || { echo "xorriso not installed"; exit 1; })
 	@$(shell command -v gcc >/dev/null 2>&1 || { echo "gcc not installed"; exit 1; })

@@ -8,3 +8,4 @@ usr/
 build/
 limine/
 .vscode/
+include/sys/ksyms.h
