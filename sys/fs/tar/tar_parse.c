@@ -20,7 +20,7 @@
 #include <x86_64/heap.h>
 #include <sys/tar/tar_octal.h>
 #include <sys/printk.h>
-#include <sys/vfs_mount.h>
+#include <sys/mount.h>
 #include <sys/strcmp.h>
 #include <sys/string.h>
 

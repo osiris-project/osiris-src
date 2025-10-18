@@ -21,7 +21,7 @@
 #include <sys/module.h>
 #include <sys/printk.h>
 #include <sys/tar/tar_parse.h>
-#include <sys/vfs_mount.h>
+#include <sys/mount.h>
 
 char *copyright="Copyright (c) 2025 V. Prokopenko\nCopyright (c) 2025 The Osiris Contributors\n";
 

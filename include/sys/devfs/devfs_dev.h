@@ -19,7 +19,7 @@
 
 #include <stddef.h>
 #include <stdint.h>
-#include <sys/vfs_mount.h>
+#include <sys/mount.h>
 
 typedef struct devfs_node
 {

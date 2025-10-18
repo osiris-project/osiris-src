@@ -19,7 +19,7 @@
 
 #include <stddef.h>
 #include <stdint.h>
-#include <sys/vfs_mount.h>
+#include <sys/mount.h>
 
 void tarfs_init (void *tar_start);
 void *tarfs_find (const char *name, uint64_t *size_out);

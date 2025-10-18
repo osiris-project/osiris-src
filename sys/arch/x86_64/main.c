@@ -25,7 +25,7 @@
 #include <sys/module.h>
 #include <sys/panic.h>
 #include <sys/portb.h>
-#include <sys/vfs_mount.h>
+#include <sys/mount.h>
 #include <sys/printk.h>
 #include <sys/string.h>
 #include <sys/tar/tar_parse.h>

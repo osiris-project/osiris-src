@@ -25,7 +25,7 @@
 #include <sys/strcmp.h>
 #include <sys/string.h>
 #include <sys/tar/tar_parse.h>
-#include <sys/vfs_mount.h>
+#include <sys/mount.h>
 #include <x86_64/heap.h>
 #include <x86_64/request.h>
 

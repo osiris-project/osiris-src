@@ -23,7 +23,7 @@
 #include <x86_64/request.h>
 #include <liminefb.h>
 #include <sys/printk.h>
-#include <sys/vfs_mount.h>
+#include <sys/mount.h>
 
 /* Technically, you can use another font by just changing up the symbol names,
  * however, it must be 8x16, since some numbers are hardcoded here. It also

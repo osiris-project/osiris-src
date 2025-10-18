@@ -16,7 +16,7 @@
  */
 
 #include <random.h>
-#include <sys/vfs_mount.h>
+#include <sys/mount.h>
 #include <sys/printk.h>
 #include <stdint.h>
 #include <stddef.h>

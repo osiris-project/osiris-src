@@ -23,7 +23,7 @@
 #include <sys/module.h>
 #include <sys/panic.h>
 #include <sys/printk.h>
-#include <sys/vfs_mount.h>
+#include <sys/mount.h>
 
 void
 module_init ()

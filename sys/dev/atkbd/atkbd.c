@@ -24,7 +24,7 @@
 #include <liminefb.h>
 #include <sys/portb.h>
 #include <sys/printk.h>
-#include <sys/vfs_mount.h>
+#include <sys/mount.h>
 #include <sys/strcmp.h>
 #include <sys/string.h>
 
