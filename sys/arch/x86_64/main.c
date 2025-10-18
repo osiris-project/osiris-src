@@ -33,6 +33,12 @@
 #include <x86_64/page.h>
 #include <x86_64/request.h>
 #include <x86_64/vmm/vmm_map.h>
+#include <random.h>
+#include <sys/devfs/devfs_dev.h>
+#include <sys/module.h>
+#include <sys/printk.h>
+#include <sys/tar/tar_parse.h>
+#include <sys/mount.h>
 
 extern void gdt_init ();
 extern void trap_init ();
@@ -40,6 +46,9 @@ extern void tss_init ();
 extern void proc_init ();
 
 extern void mi_startup ();
+extern void switch_to_user();
+
+char *copyright="Copyright (c) 2025 V. Prokopenko\nCopyright (c) 2025 The Osiris Contributors\n";
 
 void
 x64_main ()
@@ -49,18 +58,21 @@ x64_main ()
   liminefb_init ();
   trap_init ();
   asm volatile ("cli");
-
   pmm_init ();
-
   vmm_init ();
-
   heap_init ();
-
   proc_init ();
-
   atkbd_init ();
-
   asm volatile("sti");
+  module_init ();
+  devfs_init ();
+  random_init ();
+
+  /* Write copyright and banner to /dev/console */
+  printk("Osiris 0.00 by V. Prokopenko %s %s\n%s", __DATE__, __TIME__);
+  vfs_write("/dev/console", copyright, sizeof (copyright));
+
+  switch_to_user();
 
   /* Transfer control to the main startup function*/
   return mi_startup ();
