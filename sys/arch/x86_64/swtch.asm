@@ -19,6 +19,8 @@ global proc_switch_x64
 global switch_to_user
 extern current_proc
 
+USER_STACK_TOP equ 0x400000
+
 section .text
 proc_switch_x64:
     push r15
@@ -60,22 +62,19 @@ proc_switch_x64:
 
     ret
 
-.kernel_ret:
-    ret
-
 switch_to_user:
-    mov ax, 0x23
+    mov ax, 0x33
     mov ds, ax
     mov es, ax
     mov fs, ax
     mov gs, ax
 
-    push 0x23
-    push rsp
+    push 0x33
+    push USER_STACK_TOP
     pushfq
     pop rax
     or rax, 0x200
     push rax
-    push 0x1B
-    push rdi
+    push 0x2B
+    ; push [placeholder for userspace elf binaries later]
     iretq
