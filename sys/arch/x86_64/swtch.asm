@@ -16,6 +16,7 @@
 ; CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 ;
 global proc_switch_x64
+global switch_to_user
 extern current_proc
 
 section .text
@@ -61,3 +62,20 @@ proc_switch_x64:
 
 .kernel_ret:
     ret
+
+switch_to_user:
+    mov ax, 0x23
+    mov ds, ax
+    mov es, ax
+    mov fs, ax
+    mov gs, ax
+
+    push 0x23
+    push rsp
+    pushfq
+    pop rax
+    or rax, 0x200
+    push rax
+    push 0x1B
+    push rdi
+    iretq

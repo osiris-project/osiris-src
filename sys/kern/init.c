@@ -25,6 +25,8 @@
 
 char *copyright="Copyright (c) 2025 V. Prokopenko\nCopyright (c) 2025 The Osiris Contributors\n";
 
+extern void switch_to_user();
+
 void
 mi_startup ()
 {
@@ -40,6 +42,8 @@ mi_startup ()
   /* Write copyright and banner to /dev/console */
   printk("Osiris 0.00 by V. Prokopenko %s %s\n%s", __DATE__, __TIME__);
   vfs_write("/dev/console", copyright, sizeof (copyright));
+
+  switch_to_user();
 
   for (;;)
     asm volatile ("hlt");
