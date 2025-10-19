@@ -68,8 +68,6 @@ x64_main ()
   devfs_init ();
   random_init ();
 
-  /* Write copyright and banner to /dev/console */
-  printk("Osiris 0.00 by V. Prokopenko %s %s\n%s", __DATE__, __TIME__);
   vfs_write("/dev/console", copyright, sizeof (copyright));
 
   switch_to_user();

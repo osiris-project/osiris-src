@@ -4,8 +4,9 @@
 *.img
 *.bin
 *.elf
-usr/
+root/
 build/
 limine/
 .vscode/
 include/sys/ksyms.h
+bin/test
