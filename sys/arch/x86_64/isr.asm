@@ -4,8 +4,7 @@
 ; Copyright (c) 2025 V. Prokopenko
 ;
 ; Permission to use, copy, modify, and/or distribute this software for any
-; purpose with or without fee is hereby granted, subject to the retention
-; of the original Arikoto copyright and NCSA license notice above.
+; purpose with or without fee is hereby granted.
 ;
 ; THIS SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
 ; WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
@@ -15,7 +14,6 @@
 ; OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
 ; CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 ;
-
 extern isr_handler_c
 extern irq_handler_c
 
