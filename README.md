@@ -1,3 +1,4 @@
+# WARNING: this project is no longer maintained
 # Osiris-src
 
 This is the source tree for the Osiris kernel, an operating system aiming to be a modern, GNU-free Unix clone licensed under 0BSD.
