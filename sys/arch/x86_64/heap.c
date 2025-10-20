@@ -144,7 +144,7 @@ kfree (void *ptr)
       || block_size < MIN_ALLOC_SIZE
       || ((uintptr_t)block_start % HEAP_ALIGNMENT) != 0)
     {
-      panic ("heap: nvalid pointer or heap corruption detected in kfree");
+      panic ("heap: invalid pointer or heap corruption detected in kfree");
       return;
     }
 
